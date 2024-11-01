@@ -5,10 +5,10 @@ import dynamic from 'next/dynamic';
 
 type Props = {
   params: { componentName: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ componentName: string }[]> {
   const paths = docs.dataArray.flatMap((category) =>
     category.componentArray.map((component) => ({
       componentName: component.componentName,
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export default function Page({ params }: Props) {
+export default async function Page({ params }: Props) {
   const { componentName } = params;
   console.log(componentName);
 
