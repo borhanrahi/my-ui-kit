@@ -25,7 +25,6 @@ class ErrorBoundary extends Component<{ children: ReactNode, fallback: ReactNode
 
 export default function PreviewComponent({ componentPath }: PreviewComponentProps) {
   const ComponentToRender = dynamic(() => import(`@/registry/${componentPath}`), {
-    ssr: false,
     loading: () => <div>Loading component...</div>
   });
 
