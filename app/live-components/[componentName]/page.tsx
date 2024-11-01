@@ -2,6 +2,13 @@ import React, { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import docs from '@/configs/docs.json';
 import dynamic from 'next/dynamic';
+
+type PageParams = {
+  params: {
+    componentName: string;
+  };
+};
+
 export async function generateStaticParams() {
   const paths = docs.dataArray.flatMap((category) =>
     category.componentArray.map((component) => ({
@@ -11,11 +18,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export default function SectionPage({
-  params,
-}: {
-  params: { componentName: string };
-}) {
+export default async function ComponentPage({ params }: PageParams) {
   const { componentName } = params;
   console.log(componentName);
 
