@@ -18,19 +18,20 @@ export const metadata = {
 };
 
 // Define props type that matches Next.js 15 expectations
-type PageProps = {
-  params: {
-    componentName: string;
-  };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
+type Props = {
+  params: Promise<{ componentName: string }>
+  searchParams?: Promise<Record<string, string | string[]>>
+}
 
 // Use const for the component definition
-const Page: React.FC<PageProps> = ({ params }) => {
+const Page: React.FC<Props> = async ({ params }) => {
+  // Await the params before using
+  const { componentName } = await params;
+
   // Find component
   const component = docs.dataArray.flatMap(category => 
     category.componentArray
-  ).find(comp => comp.componentName === params.componentName);
+  ).find(comp => comp.componentName === componentName);
 
   if (!component) {
     notFound();
