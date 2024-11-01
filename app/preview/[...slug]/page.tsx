@@ -10,19 +10,29 @@ export async function generateStaticParams() {
   );
 }
 
-type PageProps = {
-  params: {
-    slug: string[];
-  };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
+// Define the correct type for catch-all route params
+type Props = {
+  params: { slug: string[] }
+  searchParams?: { [key: string]: string | string[] | undefined }
+}
 
-export default function PreviewPage({ params }: PageProps) {
-  const componentPath = params.slug.join('/');
+export async function generateMetadata({ params }: Props) {
+  const { slug } = params;
+  const path = slug.join('/');
+  
+  return {
+    title: `Preview: ${path}`,
+    description: `Preview of component ${path}`,
+  };
+}
+
+export default async function PreviewPage({ params }: Props) {
+  const { slug } = params;
+  const path = slug.join('/');
   
   const currComponent = docs.dataArray.reduce<any>((acc, component) => {
     const file = component?.componentArray?.find(
-      (file) => file.componentName === componentPath
+      (file) => file.componentName === path
     );
     if (file) acc = file;
     return acc;
