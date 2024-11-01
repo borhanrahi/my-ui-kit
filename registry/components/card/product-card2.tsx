@@ -27,14 +27,12 @@ function Card2() {
   };
 
   return (
-    <div className='w-[350px] mx-auto '>
+    <div className='w-[350px] mx-auto'>
       <div className='dark:bg-white bg-gray-100 rounded-md'>
         <div className='w-full h-52 relative'>
           <motion.button
-            className='absolute top-2 right-2 z-20 text-2xl text-white '
+            className='absolute top-2 right-2 z-20 text-2xl text-white'
             onClick={handleClick}
-            animate={{ scale: isActive ? 1.2 : 1 }}
-            transition={{ type: 'spring', stiffness: 1000, damping: 10 }}
           >
             {isActive ? (
               <>
@@ -46,9 +44,6 @@ function Card2() {
               </>
             )}
           </motion.button>
-          {/* <button className="absolute top-2 right-2 z-20">
-            <Heart />
-          </button> */}
           {CardArr.map((data, index) => (
             <Image
               src={data?.img}
@@ -110,7 +105,6 @@ function Card2() {
             </Select.Root>
           </div>
           <div className='flex justify-between py-2'>
-            {/* <span className="font-semibold text-xl">$39</span> */}
             <div className='flex gap-2 items-center'>
               {CardArr.map((data, index) => (
                 <button

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 interface TocItem {
   title: string;
@@ -68,37 +69,14 @@ export default function TableOfContents({ toc }: TableOfContentsProps) {
                 On This Page
               </span>
               <hr />
-              <ul className=' list-none m-0 ml-0  text-[0.8em] space-y-0.5 pt-2 pl-0'>
-                {tocItems?.map((item) => {
-                  // console.log(item);
-
-                  return (
-                    <>
-                      <li key={item.url}>
-                        <a
-                          href={item.url}
-                          className={`${activeId === item.url.slice(1) ? ' font-semibold  text-primary py-1' : ''} no-underline rounded-sm px-1 hover:text-primary text-muted-foreground `}
-                        >
-                          {item.title}
-                        </a>
-                        {item.items && item.items.length > 0 && (
-                          <ul className='list-none  pl-4 space-y-0.5 pt-0.5'>
-                            {item.items.map((subItem) => (
-                              <li key={subItem.url}>
-                                <a
-                                  href={subItem.url}
-                                  className={`${activeId === subItem.url.slice(1) ? ' font-semibold text-primary' : ' '} no-underline  hover:text-primary text-muted-foreground`}
-                                >
-                                  {subItem.title}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </li>
-                    </>
-                  );
-                })}
+              <ul className='list-none m-0 ml-0 text-[0.8em] space-y-0.5 pt-2 pl-0'>
+                {tocItems?.map((item) => (
+                  <li key={item.url || item.title} className="hover:text-primary">
+                    <Link href={`#${item.url}`}>
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

@@ -54,33 +54,29 @@ export default function Home() {
         </p>
         <>
           <div className='grid md:grid-cols-3 grid-cols-2 gap-6 py-4'>
-            {appsDesign.map((component, index) => {
-              return (
-                <>
-                  <Link
-                    href={component?.url}
-                    className='border p-2    transition-all rounded-lg'
-                  >
-                    <>
-                      <AspectRatio.Root ratio={16 / 9}>
-                        <Image
-                          src={component.imgSrc}
-                          alt='hero-sec'
-                          width={100}
-                          height={100}
-                          className='w-full h-full   rounded-md'
-                        />
-                      </AspectRatio.Root>
-                    </>
+            {appsDesign.map((component, index) => (
+              <div key={component.id || index} className="relative">
+                <Link href={component.url}>
+                  <div className="relative">
+                    <AspectRatio.Root ratio={16 / 9}>
+                      <Image
+                        src={component.imgSrc}
+                        alt={`Preview of ${component.name} component`}
+                        width={100}
+                        height={100}
+                        className='w-full h-full rounded-md'
+                        inert={false}
+                      />
+                    </AspectRatio.Root>
                     <div className='sm:py-2 py-1 sm:px-4 px-2'>
                       <h1 className='2xl:text-xl xl:text-xl md:text-lg text-sm font-medium leading-[140%] capitalize'>
                         {component.name}
                       </h1>
                     </div>
-                  </Link>
-                </>
-              );
-            })}
+                  </div>
+                </Link>
+              </div>
+            ))}
           </div>
         </>
       </div>

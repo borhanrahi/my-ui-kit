@@ -11,8 +11,9 @@ import {
   SunIcon,
 } from 'lucide-react';
 import { Command } from 'cmdk';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
-import { Dialog, DialogContent } from '@/components/website/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/website/ui/dialog';
 import { ScrollArea } from '@/components/website/ui//scroll-area';
 import { generateSidebarData } from './constant';
 import docsData from '@/configs/docs.json' assert { type: 'json' };
@@ -74,6 +75,9 @@ export function SearchDialog({ classname }: { classname?: string }) {
 
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
         <DialogContent className='w-[90%] rounded-md border p-0 lg:w-[500px] xl:w-[800px]'>
+          <VisuallyHidden asChild>
+            <DialogTitle>Search</DialogTitle>
+          </VisuallyHidden>
           <Command className='[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5'>
             <Command.Input
               placeholder='Type a command or search...'

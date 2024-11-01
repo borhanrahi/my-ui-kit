@@ -2,57 +2,69 @@
 
 import React, { useRef, useEffect } from 'react';
 import Head from 'next/head';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimationControls } from 'framer-motion';
 import Link from 'next/link';
 
 const PandaLogin: React.FC = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const eyeLControl = useAnimation();
-  const eyeRControl = useAnimation();
-  const handLControl = useAnimation();
-  const handRControl = useAnimation();
+  const eyeLControl = useAnimationControls();
+  const eyeRControl = useAnimationControls();
+  const handLControl = useAnimationControls();
+  const handRControl = useAnimationControls();
 
-  const normalEyeStyle = async () => {
-    await eyeLControl.start({ left: '0.6em', top: '0.6em' });
-    await eyeRControl.start({ right: '0.6em', top: '0.6em' });
+  const normalEyeStyle = () => {
+    return Promise.all([
+      eyeLControl.start({ left: '0.6em', top: '0.6em' }),
+      eyeRControl.start({ right: '0.6em', top: '0.6em' })
+    ]);
   };
 
-  const normalHandStyle = async () => {
-    await handLControl.start({
-      height: '2.81em',
-      top: '8.4em',
-      left: '7.5em', 
-      rotate: 0,
-    });
-    await handRControl.start({
-      height: '2.81em',
-      top: '8.4em',
-      right: '7.5em',
-      rotate: 0,
-    });
+  const normalHandStyle = () => {
+    return Promise.all([
+      handLControl.start({
+        height: '2.81em',
+        top: '8.4em',
+        left: '7.5em', 
+        rotate: 0,
+      }),
+      handRControl.start({
+        height: '2.81em',
+        top: '8.4em',
+        right: '7.5em',
+        rotate: 0,
+      })
+    ]);
   };
 
-  const handleUsernameClick = async () => {
-    await eyeLControl.start({ left: '0.75em', top: '1.12em' });
-    await eyeRControl.start({ right: '0.75em', top: '1.12em' });
-    await normalHandStyle();
+  // Initialize default positions
+  useEffect(() => {
+    normalEyeStyle();
+    normalHandStyle();
+  }, []);
+
+  const handleUsernameClick = () => {
+    Promise.all([
+      eyeLControl.start({ left: '0.75em', top: '1.12em' }),
+      eyeRControl.start({ right: '0.75em', top: '1.12em' })
+    ]).then(() => normalHandStyle());
   };
 
-  const handlePasswordClick = async () => {
-    await handLControl.start({
-      height: '6.56em',
-      top: '3.87em',
-      left: '11.75em',
-      rotate: -155,
-    });
-    await handRControl.start({
-      height: '6.56em',
-      top: '3.87em',
-      right: '11.75em',
-      rotate: 155,
-    });
-    await normalEyeStyle();
+  const handlePasswordClick = () => {
+    Promise.all([
+      handLControl.start({
+        height: '6.56em',
+        top: '3.87em',
+        left: '11.75em',
+        rotate: -155,
+      }),
+      handRControl.start({
+        height: '6.56em',
+        top: '3.87em',
+        right: '11.75em',
+        rotate: 155,
+      })
+    ]).then(() => normalEyeStyle());
   };
 
   useEffect(() => {
@@ -67,6 +79,19 @@ const PandaLogin: React.FC = () => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
+  }, []);
+
+  useEffect(() => {
+    const animateHand = async () => {
+      await handRControl.start({
+        height: '2.81em',
+        top: '8.4em',
+        right: '7.5em',
+        rotate: 0,
+      });
+    };
+    
+    animateHand();
   }, []);
 
   return (
@@ -88,7 +113,7 @@ const PandaLogin: React.FC = () => {
               ref={usernameRef}
               placeholder="Username here..."
               onClick={handleUsernameClick}
-              className="text-[0.95em] font-normal text-[#3f3554] p-[0.3em] border-b-[0.12em] border-[#3f3554] outline-none mb-[0.9em] focus:border-[#f4c531]"
+              className="text-[0.95em] font-normal text-white p-[0.3em] border-b-[0.12em] border-[#3f3554] outline-none mb-[0.9em] focus:border-[#f4c531] bg-indigo-600 rounded-md placeholder-indigo-300"
             />
             <label htmlFor="password" className="block mb-[0.2em] font-semibold text-[#2e0d30]">Password:</label>
             <input
@@ -97,7 +122,7 @@ const PandaLogin: React.FC = () => {
               ref={passwordRef}
               placeholder="Password here..."
               onClick={handlePasswordClick}
-              className="text-[0.95em] font-normal text-[#3f3554] p-[0.3em] border-b-[0.12em] border-[#3f3554] outline-none mb-[0.9em] focus:border-[#f4c531]"
+              className="text-[0.95em] font-normal text-white p-[0.3em] border-b-[0.12em] border-[#3f3554] outline-none mb-[0.9em] focus:border-[#f4c531] bg-indigo-600 rounded-md placeholder-indigo-300"
             />
             <button type="submit" className="text-[0.95em] py-[0.8em] px-0 rounded-[2em] border-none cursor-pointer outline-none bg-[#f4c531] text-[#2e0d30] uppercase font-semibold tracking-[0.15em] mt-[0.8em] transition duration-500">Login</button>
           </form>

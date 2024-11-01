@@ -10,9 +10,6 @@ export const SpecialComponents = [
     name: 'Products-Cards',
     component: 'card',
   },
-
-  { href: '/components/footers', name: 'Footers' },
-  { href: '/components/horizontal-scroll', name: 'Horizontal Scroll' },
   {
     href: '/components/demo',
     name: 'Demo Components',

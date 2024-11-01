@@ -97,61 +97,6 @@
       "type": "card"
     },
     {
-      "name": "Footers",
-      "componentArray": [
-        {
-          "componentName": "animated-logo-footer",
-          "filesrc": "components/footers/footer1.tsx",
-          "iframeSrc": "live-components/animated-logo-footer",
-          "parentlink": "footers",
-          "parentName": "Footers"
-        },
-        {
-          "componentName": "hover-footer",
-          "iframeSrc": "live-components/hover-footer",
-          "filesrc": "components/footers/hover-footer.tsx",
-          "filesArray": [
-            {
-              "name": "index.tsx",
-              "filesrc": "registry/components/footers/hover-footer.tsx"
-            },
-            {
-              "name": "cursor-follow-text.tsx",
-              "filesrc": "components/core/cursor-follow-text.tsx"
-            }
-          ],
-          "parentlink": "footers",
-          "parentName": "Footers"
-        }
-      ],
-      "type": "footers"
-    },
-    {
-      "name": "Horizontal Scroll",
-      "componentArray": [
-        {
-          "componentName": "horizontalscroll",
-          "iframelink": "horizontal-scrolling-section",
-          "parentlink": "horizontal-scroll",
-          "parentName": "Horizontal Scroll"
-        },
-        {
-          "componentName": "framerhorizontalscroll",
-          "filesrc": "components/scroll-animation/framer-horizontal-scroll.tsx",
-          "iframeSrc": "live-components/framerhorizontalscroll",
-          "filesArray": [
-            {
-              "name": "index.tsx",
-              "filesrc": "registry/components/scroll-animation/framer-horizontal-scroll.tsx"
-            }
-          ],
-          "parentlink": "horizontal-scroll",
-          "parentName": "Horizontal Scroll"
-        }
-      ],
-      "type": "horizontal-scroll"
-    },
-    {
       "name": "Blur Vignette",
       "componentArray": [
         {
