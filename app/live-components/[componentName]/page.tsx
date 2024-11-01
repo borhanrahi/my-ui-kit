@@ -17,7 +17,11 @@ export async function generateStaticParams(): Promise<{ componentName: string }[
   return paths;
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({
+  params,
+}: {
+  params: { componentName: string }
+}) {
   const { componentName } = params;
   console.log(componentName);
 
