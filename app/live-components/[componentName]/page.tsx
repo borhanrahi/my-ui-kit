@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import docs from '@/configs/docs.json';
 
-// Generate static paths
 export async function generateStaticParams() {
   return docs.dataArray.flatMap((category) =>
     category.componentArray.map((component) => ({
