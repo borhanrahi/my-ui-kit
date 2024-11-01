@@ -10,27 +10,28 @@ export async function generateStaticParams() {
   );
 }
 
-// Define the correct type for catch-all route params
+// Define the Props type with params as a Promise
 type Props = {
-  params: {
-    slug: string[]
-  }
-}
+  params: Promise<{
+    slug: string[];
+  }>;
+};
 
 export async function generateMetadata({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
   const path = slug.join('/');
-  
+
   return {
     title: `Preview: ${path}`,
     description: `Preview of component ${path}`,
   };
 }
 
-export default function PreviewPage({ params }: Props) {
-  const { slug } = params;
+// Make the page component async and await params
+export default async function PreviewPage({ params }: Props) {
+  const { slug } = await params;
   const path = slug.join('/');
-  
+
   const currComponent = docs.dataArray.reduce<any>((acc, component) => {
     const file = component?.componentArray?.find(
       (file) => file.componentName === path
