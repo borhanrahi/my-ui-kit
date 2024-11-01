@@ -12,25 +12,20 @@ export async function generateStaticParams() {
   return paths;
 }
 
-interface PageProps {
-  params: { componentName: string }
-  searchParams: { [key: string]: string | undefined }
+type PageProps = {
+  params: { componentName: string };
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
-export default function Page({ params, searchParams }: PageProps) {
-  const { componentName } = params;
-  // console.log(componentName);
+export default function Page(props: PageProps) {
+  const { componentName } = props.params;
 
-  // Find the component data based on componentName
   const component = docs.dataArray.reduce((found, category) => {
     if (found) return found;
-
     return category.componentArray.find(
       (comp) => comp.componentName === componentName
     );
   }, null as any);
-
-  // console.log(componentName);
 
   if (!component) {
     notFound();
