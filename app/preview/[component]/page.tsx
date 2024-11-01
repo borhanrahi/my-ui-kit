@@ -2,16 +2,11 @@ import { notFound } from 'next/navigation';
 import docs from '@/configs/docs.json';
 import PreviewComponent from './PreviewComponent';
 
-interface Props {
-  params: { component: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+type Props = {
+  params: Promise<{ component: string }>
 }
 
 export default async function PreviewPage({ params }: Props) {
-  if (!params) {
-    return notFound();
-  }
-
   const { component } = await params;
 
   const currComponent = docs.dataArray.reduce<any>((acc, componentItem) => {
