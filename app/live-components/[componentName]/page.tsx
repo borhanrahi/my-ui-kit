@@ -3,10 +3,9 @@ import { notFound } from 'next/navigation';
 import docs from '@/configs/docs.json';
 import dynamic from 'next/dynamic';
 
-interface PageParams {
-  params: {
-    componentName: string;
-  };
+type Props = {
+  params: { componentName: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateStaticParams() {
@@ -18,7 +17,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export default function Page({ params }: PageParams) {
+export default function Page({ params }: Props) {
   const { componentName } = params;
   console.log(componentName);
 
