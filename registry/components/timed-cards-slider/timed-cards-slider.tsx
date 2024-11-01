@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Bookmark, ChevronLeft, ChevronRight } from "lucide-react";
 
 const data = [
@@ -63,103 +63,99 @@ export default function TimedCardsSlider() {
     offsetLeft: 0,
     offsetTop: 0
   });
-  const [isComponentMounted, setIsComponentMounted] = useState(false);
+
+  const handleNextClick = useCallback(() => {
+    setOrder((prev) => [...prev.slice(1), prev[0]]);
+    setDetailsEven(!detailsEven);
+  }, [detailsEven]);
 
   useEffect(() => {
-    setIsComponentMounted(true);
-    // Set dimensions after component mounts
     setDimensions({
-      offsetLeft: window.innerWidth - 580,
+      offsetLeft: window.innerWidth - 450,
       offsetTop: window.innerHeight - 454
     });
-  }, []);
 
-  useEffect(() => {
-    if (!isComponentMounted) return;
+    // Progress bar animation
+    controls.start({
+      scaleX: 1,
+      transition: { duration: 5, ease: "linear" }
+    });
 
-    const startAnimation = async () => {
-      while (true) {
-        try {
-          await controls.start({
-            x: 0,
-            transition: { duration: 2, ease: "linear" },
-          });
-          await controls.start({
-            x: "100%",
-            transition: { duration: 0.8, ease: "linear", delay: 0.3 },
-          });
-          controls.set({ x: "-100%" });
+    // Auto slide timer
+    const slideInterval = setInterval(() => {
+      handleNextClick();
+      controls.set({ scaleX: 0 });
+      controls.start({
+        scaleX: 1,
+        transition: { duration: 5, ease: "linear" }
+      });
+    }, 5000);
 
-          setOrder((prev) => {
-            const newOrder = [...prev];
-            newOrder.push(newOrder.shift()!);
-            return newOrder;
-          });
-          setDetailsEven((prev) => !prev);
-        } catch (error) {
-          // Handle any animation errors or component unmounting
-          break;
-        }
-      }
+    return () => {
+      clearInterval(slideInterval);
+      controls.stop();
     };
-
-    startAnimation();
-  }, [controls, isComponentMounted]);
+  }, [controls, handleNextClick]);
 
   const handlePrevClick = () => {
-    setOrder((prev) => {
-      const newOrder = [...prev];
-      newOrder.unshift(newOrder.pop()!);
-      return newOrder;
+    setOrder((prev) => [prev[prev.length - 1], ...prev.slice(0, -1)]);
+    setDetailsEven(!detailsEven);
+    // Reset progress bar
+    controls.set({ scaleX: 0 });
+    controls.start({
+      scaleX: 1,
+      transition: { duration: 5, ease: "linear" }
     });
-    setDetailsEven((prev) => !prev);
-  };
-
-  const handleNextClick = () => {
-    setOrder((prev) => {
-      const newOrder = [...prev];
-      newOrder.push(newOrder.shift()!);
-      return newOrder;
-    });
-    setDetailsEven((prev) => !prev);
   };
 
   return (
     <div className="relative h-[600px] w-full overflow-hidden bg-[#1a1a1a] text-[#FFFFFFDD] font-['Inter']">
       {/* Progress Indicator */}
       <motion.div
-        className="absolute top-0 left-0 right-0 h-[5px] bg-[#ecad29] z-[60]"
+        className="absolute top-0 left-0 right-0 h-[5px] bg-[#ecad29] origin-left"
+        initial={{ scaleX: 0 }}
         animate={controls}
+        style={{ zIndex: 60 }}
       />
 
-      {/* Cards */}
-      {data.map((item, index) => (
+      {/* Cards Container */}
+      <div className="absolute inset-0">
+        {/* Active Slide */}
         <motion.div
-          key={index}
-          className="absolute left-0 top-0 bg-cover bg-center shadow-lg"
+          className="absolute inset-0"
           style={{
-            backgroundImage: `url(${item.image})`,
-            width: order[0] === index ? "100vw" : "200px",
-            height: order[0] === index ? "100vh" : "320px",
-            x: order[0] === index
-              ? 0
-              : dimensions.offsetLeft + (order.indexOf(index) - 1) * (200 + 25),
-            y: order[0] === index ? 0 : dimensions.offsetTop,
-            borderRadius: order[0] === index ? 0 : "10px",
-            zIndex: order[0] === index ? 20 : 30,
+            zIndex: 20,
           }}
-          animate={{
-            x: order[0] === index
-              ? 0
-              : dimensions.offsetLeft + (order.indexOf(index) - 1) * (200 + 25),
-            y: order[0] === index ? 0 : dimensions.offsetTop,
-            width: order[0] === index ? "100vw" : "200px",
-            height: order[0] === index ? "100vh" : "320px",
-            borderRadius: order[0] === index ? 0 : "10px",
+        >
+          <img
+            src={data[order[0]].image}
+            alt={`${data[order[0]].place}`}
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
+
+        {/* Only show next preview */}
+        <motion.div
+          className="absolute right-8 bottom-[100px]"
+          style={{
+            zIndex: 30,
           }}
-          transition={{ duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }}
-        />
-      ))}
+        >
+          <div
+            className="relative overflow-hidden rounded-lg"
+            style={{
+              width: "200px",
+              height: "320px",
+            }}
+          >
+            <img
+              src={data[order[1]].image}
+              alt={`${data[order[1]].place}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </motion.div>
+      </div>
 
       {/* Details */}
       <AnimatePresence mode="wait">
