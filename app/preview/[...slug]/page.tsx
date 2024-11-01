@@ -12,8 +12,9 @@ export async function generateStaticParams() {
 
 // Define the correct type for catch-all route params
 type Props = {
-  params: { slug: string[] }
-  searchParams?: { [key: string]: string | string[] | undefined }
+  params: {
+    slug: string[]
+  }
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function PreviewPage({ params }: Props) {
+export default function PreviewPage({ params }: Props) {
   const { slug } = params;
   const path = slug.join('/');
   
