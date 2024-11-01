@@ -1,53 +1,53 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { notFound } from 'next/navigation';
-import docs from '@/configs/docs.json';
 import dynamic from 'next/dynamic';
+import docs from '@/configs/docs.json';
 
+// Generate static paths
 export async function generateStaticParams() {
-  const paths = docs.dataArray.flatMap((category) =>
+  return docs.dataArray.flatMap((category) =>
     category.componentArray.map((component) => ({
       componentName: component.componentName,
     }))
   );
-  return paths;
 }
 
+// Define metadata
+export const metadata = {
+  title: 'Component Preview',
+  description: 'Live preview of the component',
+};
+
+// Define props type that matches Next.js 15 expectations
 type PageProps = {
   params: { componentName: string };
-  searchParams: Record<string, string | string[] | undefined>;
-}
+};
 
-export default function Page(props: PageProps) {
-  const { componentName } = props.params;
-
-  const component = docs.dataArray.reduce((found, category) => {
-    if (found) return found;
-    return category.componentArray.find(
-      (comp) => comp.componentName === componentName
-    );
-  }, null as any);
+// Use const for the component definition
+const Page: React.FC<PageProps> = ({ params }) => {
+  // Find component
+  const component = docs.dataArray.flatMap(category => 
+    category.componentArray
+  ).find(comp => comp.componentName === params.componentName);
 
   if (!component) {
     notFound();
   }
 
-  const ComponentPreview = component?.filesrc
+  // Dynamic import of component
+  const ComponentPreview = component.filesrc
     ? dynamic(() => import(`../../../registry/${component.filesrc}`), {
-        loading: () => <div>Loading preview...</div>,
+        loading: () => <div>Loading...</div>,
       })
     : null;
 
   return (
-    <section className="flex justify-center items-center min-h-screen rounded-md dark:bg-[#000000] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px]">
-      <div className="px-4 w-full">
-        {ComponentPreview ? (
-          <Suspense fallback={<div>Loading preview...</div>}>
-            <ComponentPreview />
-          </Suspense>
-        ) : (
-          <div>Component not found</div>
-        )}
+    <div className="min-h-screen flex items-center justify-center dark:bg-black">
+      <div className="w-full px-4">
+        {ComponentPreview && <ComponentPreview />}
       </div>
-    </section>
+    </div>
   );
-}
+};
+
+export default Page;
