@@ -7,14 +7,16 @@ interface Props {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default function PreviewPage({ params }: Props) {
-  if (!params?.component) {
+export default async function PreviewPage({ params }: Props) {
+  if (!params) {
     return notFound();
   }
 
-  const currComponent = docs.dataArray.reduce<any>((acc, component) => {
-    const file = component?.componentArray?.find(
-      (file) => file?.componentName === params.component
+  const { component } = await params;
+
+  const currComponent = docs.dataArray.reduce<any>((acc, componentItem) => {
+    const file = componentItem?.componentArray?.find(
+      (file) => file?.componentName === component
     );
     if (file) acc = file;
     return acc;
