@@ -12,12 +12,12 @@ export async function generateStaticParams() {
   return paths;
 }
 
-type Props = {
+interface PageProps {
   params: { componentName: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: { [key: string]: string | undefined }
 }
 
-export default async function Page({ params, searchParams }: Props) {
+export default function Page({ params, searchParams }: PageProps) {
   const { componentName } = params;
   // console.log(componentName);
 
