@@ -3,11 +3,11 @@ import { notFound } from 'next/navigation';
 import docs from '@/configs/docs.json';
 import dynamic from 'next/dynamic';
 
-type PageParams = {
+interface PageParams {
   params: {
     componentName: string;
   };
-};
+}
 
 export async function generateStaticParams() {
   const paths = docs.dataArray.flatMap((category) =>
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export default async function ComponentPage({ params }: PageParams) {
+export default function Page({ params }: PageParams) {
   const { componentName } = params;
   console.log(componentName);
 
