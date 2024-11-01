@@ -3,11 +3,6 @@ import { notFound } from 'next/navigation';
 import docs from '@/configs/docs.json';
 import dynamic from 'next/dynamic';
 
-type PageProps = {
-  params: { componentName: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
 export async function generateStaticParams(): Promise<{ componentName: string }[]> {
   const paths = docs.dataArray.flatMap((category) =>
     category.componentArray.map((component) => ({
@@ -20,7 +15,8 @@ export async function generateStaticParams(): Promise<{ componentName: string }[
 export default async function Page({
   params,
 }: {
-  params: { componentName: string }
+  params: { componentName: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const { componentName } = params;
   console.log(componentName);
@@ -28,13 +24,11 @@ export default async function Page({
   // Find the component data based on componentName
   const component = docs.dataArray.reduce((found, category) => {
     if (found) return found;
-    // console.log(category);
 
     return category.componentArray.find(
       (comp) => comp.componentName === componentName
     );
   }, null as any);
-  // console.log(component);
 
   console.log(componentName);
 
