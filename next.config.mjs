@@ -182,6 +182,9 @@ const nextConfig = {
       {
         hostname: 'img.freepik.com',
       },
+      {
+        hostname: 'assets.codepen.io',
+      },
     ],
   },
   // Add other Next.js config options here

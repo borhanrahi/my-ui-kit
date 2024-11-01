@@ -178,6 +178,19 @@
         }
       ],
       "type": "Forms"
+    },
+    {
+      "name": "Timed Cards Slider",
+      "componentArray": [
+        {
+          "componentName": "timed-cards-slider",
+          "filesrc": "components/timed-cards-slider/timed-cards-slider.tsx",
+          "iframeSrc": "live-components/timed-cards-slider",
+          "parentlink": "slider",
+          "parentName": "Slider"
+        }
+      ],
+      "type": "Slider"
     }
   ]
 }

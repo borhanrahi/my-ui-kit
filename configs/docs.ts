@@ -37,4 +37,10 @@ export const MainComponents = [
     new: true,
     component: 'forms',
   },
+  {
+    href: '/components/timed-cards-slider',
+    name: 'Timed Cards Slider',
+    new: true,
+    component: 'slider',
+  },
 ];
