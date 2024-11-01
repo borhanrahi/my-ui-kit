@@ -17,7 +17,7 @@ export default async function Page({
   searchParams,
 }: {
   params: { componentName: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | undefined };
 }) {
   const { componentName } = params;
   console.log(componentName);
