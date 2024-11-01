@@ -2,16 +2,19 @@ import { notFound } from 'next/navigation';
 import docs from '@/configs/docs.json';
 import PreviewComponent from './PreviewComponent';
 
-interface PageProps {
-  params: { 
-    component: string;
-  };
+interface Props {
+  params: { component: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function PreviewPage({ params }: PageProps) {
+export default function PreviewPage({ params }: Props) {
+  if (!params?.component) {
+    return notFound();
+  }
+
   const currComponent = docs.dataArray.reduce<any>((acc, component) => {
     const file = component?.componentArray?.find(
-      (file) => file.componentName === params.component
+      (file) => file?.componentName === params.component
     );
     if (file) acc = file;
     return acc;
