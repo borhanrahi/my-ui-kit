@@ -18,16 +18,39 @@ export default function TabCodePreview({ children }: CodePreviewProps) {
   const parsedCodes = Codes.map((code: React.ReactElement) => {
     const props = code.props;
 
-    // Check if the codeblock exists and parse the value if necessary
-    return {
-      ...code,
-      props: {
-        ...props,
-        codeblock: JSON.parse(props.codeblock),
-        // Apply JSON.parse here
-      },
-    };
+    // Add safety check for codeblock
+    if (!props.codeblock) {
+      return {
+        ...code,
+        props: {
+          ...props,
+          codeblock: { value: '', lang: 'tsx', meta: '' }
+        }
+      };
+    }
+
+    try {
+      return {
+        ...code,
+        props: {
+          ...props,
+          codeblock: typeof props.codeblock === 'string' 
+            ? JSON.parse(props.codeblock)
+            : props.codeblock
+        }
+      };
+    } catch (error) {
+      console.error('Error parsing codeblock:', error);
+      return {
+        ...code,
+        props: {
+          ...props,
+          codeblock: { value: '', lang: 'tsx', meta: '' }
+        }
+      };
+    }
   });
+
   // console.log('parseCodes', parsedCodes[0].props);
 
   // Helper function to format parseCodes.children into the correct format
