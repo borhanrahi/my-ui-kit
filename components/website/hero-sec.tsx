@@ -86,15 +86,15 @@ function HeroSec() {
             </svg>
           </Link>
           <h1 className='  xl:text-7xl md:text-6xl sm:text-5xl text-3xl text-center font-semibold leading-[110%]'>
-            Design That Really <br />
-            Need In{' '}
+            I Dump Cool Things<br />
+            That I{' '}
             <span className='bg-gradient-to-t sm:w-ful w-4/5 from-[#a2b6fa] to-[#334cec] bg-clip-text text-transparent'>
-              Your Website
+              Made for You!
             </span>
           </h1>
           <p className='mx-auto lg:w-[500px] sm:w-[80%] text-center sm:text-lg text-sm'>
-            100+ Free beautifull interactive react/nextjs component based on
-            tailwindcss, framer-motion, gsap etc
+           Cool and beautifull interactive nextjs component based on
+            tailwindcss, framer-motion, gsap , threejs etc
           </p>
           <div className='flex gap-2 justify-center items-center'>
             <Link

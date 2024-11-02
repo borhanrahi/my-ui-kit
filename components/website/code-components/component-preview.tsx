@@ -73,39 +73,44 @@ export default function ComponentPreview({
   return (
     <>
       <div className='absolute right-1 top-0 z-[10] flex h-12 items-center gap-2'>
-        {responsive && (
-          <div className='flex items-center gap-2 rounded-lg border bg-background p-1'>
-            <button
-              className={`rounded-md p-1 ${mode === 'desktop' ? 'bg-primary text-primary-foreground' : ''}`}
-              onClick={() => {
-                setMode('desktop');
-                setWidth('100%');
-              }}
-            >
-              <Monitor className='h-5 w-5' />
-            </button>
-            <button
-              onClick={() => {
-                setMode('tablet');
-
-                setWidth('50%');
-              }}
-              className={`rounded-md p-1 ${mode === 'tablet' ? 'bg-primary text-primary-foreground' : ''}`}
-            >
-              <Tablet className='h-5 w-5' />
-            </button>
-            <button
-              onClick={() => {
-                setMode('mobile');
-
-                setWidth('32%');
-              }}
-              className={`rounded-md p-1 ${mode === 'mobile' ? 'bg-primary text-primary-foreground' : ''}`}
-            >
-              <Smartphone className='h-4 w-4' />
-            </button>
-          </div>
-        )}
+        <div className='flex items-center gap-2 rounded-lg border bg-background p-1'>
+          <button
+            className={cn(
+              "rounded-md p-1",
+              mode === 'desktop' && "bg-primary text-primary-foreground"
+            )}
+            onClick={() => {
+              setMode('desktop');
+              setWidth('100%');
+            }}
+          >
+            <Monitor className='h-5 w-5' />
+          </button>
+          <button
+            onClick={() => {
+              setMode('tablet');
+              setWidth('768px');
+            }}
+            className={cn(
+              "rounded-md p-1",
+              mode === 'tablet' && "bg-primary text-primary-foreground"
+            )}
+          >
+            <Tablet className='h-5 w-5' />
+          </button>
+          <button
+            onClick={() => {
+              setMode('mobile');
+              setWidth('375px');
+            }}
+            className={cn(
+              "rounded-md p-1",
+              mode === 'mobile' && "bg-primary text-primary-foreground"
+            )}
+          >
+            <Smartphone className='h-4 w-4' />
+          </button>
+        </div>
         {!isNotCopy && (
           <button
             className='relative grid cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5'
@@ -129,7 +134,7 @@ export default function ComponentPreview({
           href={`/preview/${component?.componentName}`}
           target="_blank"
           rel="noopener noreferrer" 
-          className='relative cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5 hover:bg-accent flex items-center gap-2'
+          className='relative cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5 hover:bg-accent hover:border-neutral-400 dark:hover:border-neutral-600 flex items-center gap-2 transition-all duration-200 hover:scale-105 hover:shadow-md'
         >
           <span>Open New Tab</span>
           <ExternalLink className='h-5 w-5' />
@@ -144,62 +149,31 @@ export default function ComponentPreview({
         )}
       </div>
 
-      {responsive ? (
-        <>
-          {iframeComponent ? (
-            <>
-              <div
-                className={cn(
-                  `${isFitheight ? 'h-[600px] ' : 'h-[600px] '}  w-full rounded-lg   dark:bg-[#080b11] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px]   overflow-hidden     pt-16  p-0`,
-                  className
-                )}
-              >
-                <div
-                  className='h-full  not-prose mx-auto  '
-                  style={{ width: width }}
-                >
-                  <iframe
-                    src={`${process.env.NEXT_PUBLIC_ANIMATION_URL}/${iframeComponent}`}
-                    className='h-full w-full'
-                    style={{ maxWidth: '100%' }}
-                    loading='lazy'
-                    key={reTriggerKey}
-                  />
-                </div>
-              </div>
-            </>
-          ) : (
-            <div
-              className={cn(
-                `${isFitheight ? 'h-fit py-4' : 'h-[600px] '}  w-full rounded-lg   dark:bg-[#080b11] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px]   overflow-hidden     pt-16  p-0`,
-                className
-              )}
-            >
-              <div
-                className='h-full  not-prose mx-auto  '
-                style={{ width: width }}
-              >
-                <>
-                  <iframe
-                    src={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${component?.iframeSrc}`}
-                    className='h-full w-full'
-                    style={{ maxWidth: '100%' }}
-                    loading='lazy'
-                    key={reTriggerKey}
-                  />
-                </>
-              </div>
-            </div>
-          )}
-        </>
-      ) : (
-        <>
-          <div
-            className={`${isFitheight ? 'h-fit' : 'xl:h-[600px] h-fit overflow-auto'} w-full rounded-lg dark:bg-[#080b11] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px] overflow-hidden pt-8 p-8`}
+      <div className="h-[600px] w-full rounded-lg dark:bg-[#080b11] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px] overflow-hidden">
+        {mode === 'desktop' ? (
+          <div 
+            className="w-full h-full"
+            style={{
+              aspectRatio: '1920/1080',
+              transform: 'scale(var(--scale))',
+              transformOrigin: 'top center',
+              ['--scale' as string]: 'calc(min(1, min(600px / 1080, 100% / 1920)))',
+              maxWidth: '1920px',
+              margin: '0 auto',
+              height: '1080px'
+            }}
           >
-            <div
-              className='h-full  mx-auto p-5 not-prose'
-              style={{ width: responsive ? width : '100%' }}
+            {MemoizedComponentPreview ? (
+              <MemoizedComponentPreview key={reTriggerKey} />
+            ) : (
+              <div>Component not found</div>
+            )}
+          </div>
+        ) : (
+          <div className="w-full h-full flex justify-center">
+            <div 
+              className="h-full border-x border-border"
+              style={{ width: width }}
             >
               {MemoizedComponentPreview ? (
                 <MemoizedComponentPreview key={reTriggerKey} />
@@ -208,8 +182,8 @@ export default function ComponentPreview({
               )}
             </div>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </>
   );
 }

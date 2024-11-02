@@ -171,13 +171,20 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+        pathname: '/ecemgo/mini-samples-great-tricks/assets/**',
+      },
+      {
         hostname: 'avatars.githubusercontent.com',
       },
       {
         hostname: 'res.cloudinary.com',
-      },
-      {
-        hostname: 'images.unsplash.com',
       },
       {
         hostname: 'img.freepik.com',

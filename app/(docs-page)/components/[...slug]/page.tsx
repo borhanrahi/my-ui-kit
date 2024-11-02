@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import { getDocBySlug, getAllDocs } from '@/lib/docs';
 import { cn } from '@/lib/utils';
 import { Component } from 'lucide-react';
-import TableOfContents from '@/components/website/tableof-compoents';
 import { ComponentPagination } from '@/components/website/code-components/pagination';
 
 export async function generateStaticParams() {
@@ -72,7 +71,6 @@ export default async function DocPage({
             <Content />
             <ComponentPagination doc={doc} />
           </section>
-          <TableOfContents toc={doc.toc} />
         </div>
       </div>
     </>

@@ -7,7 +7,8 @@ const COOKING_TEXTS = [
   "Everybody can cook.",
   "You can cook.",
   "Just cook it.",
-  "CSS.",
+  "Tailwind CSS.",
+"Framer Motion"
 ];
 
 const CookingLetters = () => {

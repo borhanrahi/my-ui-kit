@@ -44,4 +44,11 @@ export const MainComponents = [
     component: 'slider',
     codeVisible: false,
   },
+  {
+    href: '/components/stacked-cards-autoplay',
+    name: 'Stacked Cards Autoplay',
+    new: true,
+    component: 'slider',
+    codeVisible: true,
+  },
 ];

@@ -1,0 +1,142 @@
+export const metadata = {
+  title: 'Stacked Cards Autoplay',
+  description: 'Interactive stacked card gallery with automatic transitions and drag functionality'
+};
+
+
+<ComponentCodePreview name='stacked-cards-autoplay' />
+## Notes: 
+For Better Preview, please use the live preview link.
+
+
+## Overview
+
+The Stacked Cards Autoplay component creates an engaging image gallery with a unique stacked card layout. Cards automatically transition with a smooth animation, and users can interact by dragging cards horizontally.
+
+## Features
+
+- 🎭 Automatic card transitions
+- 🖱️ Interactive drag navigation
+- 📱 Responsive design
+- 🎨 Customizable styling
+- 🔄 Smooth animations
+- 🖼️ Optimized image loading
+
+## Installation
+
+```bash
+npm install framer-motion next-images
+```
+
+## Basic Usage
+
+```tsx
+import StackedCardsAutoplay from '@/components/stacked-cards-autoplay';
+
+const cards = [
+  {
+    src: "/path/to/image1.jpg",
+    alt: "Image 1 description"
+  },
+  {
+    src: "/path/to/image2.jpg",
+    alt: "Image 2 description"
+  }
+];
+
+export default function Gallery() {
+  return (
+    <StackedCardsAutoplay 
+      cards={cards}
+      interval={4000}
+    />
+  );
+}
+```
+
+## Card Interface
+
+```typescript
+interface Card {
+  src: string;      // Image source URL
+  alt: string;      // Image alt text
+}
+```
+
+## Props
+
+| Prop             | Type              | Default     | Description                                               |
+| ---------------- | ----------------- | ----------- | --------------------------------------------------------- |
+| `cards`          | `Card[]`          | `[]`        | Array of image cards to display                           |
+| `interval`       | `number`          | `4000`      | Autoplay interval in milliseconds                         |
+| `dragThreshold`  | `number`          | `100`       | Minimum drag distance to trigger card change              |
+| `className`      | `string`          |             | Additional CSS classes for container                      |
+
+
+## Advanced Example
+
+```tsx
+import StackedCardsAutoplay from '@/components/stacked-cards-autoplay';
+
+const Gallery = () => {
+  const cards = [
+    {
+      src: "/images/card1.jpg",
+      alt: "Description 1"
+    },
+    {
+      src: "/images/card2.jpg",
+      alt: "Description 2"
+    }
+  ];
+
+  const handleCardChange = (index: number) => {
+    console.log(`Active card changed to index: ${index}`);
+  };
+
+  return (
+    <div className="gallery-wrapper">
+      <StackedCardsAutoplay
+        cards={cards}
+        interval={4000}
+        onCardChange={handleCardChange}
+        className="custom-gallery"
+      />
+    </div>
+  );
+};
+
+export default Gallery;
+```
+
+## Styling
+
+The component uses Tailwind CSS classes by default. You can customize the appearance by:
+
+1. Overriding default classes using the `className` prop
+2. Modifying the card dimensions in the component
+3. Adjusting animation parameters
+
+## Best Practices
+
+1. **Image Optimization**
+   - Use Next.js Image component for optimal loading
+   - Provide appropriate image sizes
+   - Include meaningful alt text
+
+2. **Performance**
+   - Keep the number of cards reasonable (5-10 recommended)
+   - Use properly sized images
+   - Enable image optimization
+
+3. **Accessibility**
+   - Include proper alt text for images
+   - Consider adding keyboard navigation
+   - Provide aria labels where necessary
+
+## Notes
+
+- The component requires Framer Motion for animations
+- Images are automatically optimized using Next.js Image component
+- Touch events are properly handled for mobile devices
+- The component is SSR-friendly

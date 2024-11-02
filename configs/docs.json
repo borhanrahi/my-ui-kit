@@ -178,6 +178,20 @@
         }
       ],
       "type": "Slider"
+    },
+    {
+      "name": "Stacked Cards Autoplay",
+      "componentArray": [
+        {
+          "componentName": "stacked-cards-autoplay",
+          "filesrc": "components/stacked-cards-autoplay/stacked-cards-autoplay.tsx",
+          "iframeSrc": "live-components/stacked-cards-autoplay",
+          "parentlink": "slider",
+          "parentName": "Slider"
+        }
+      ],
+      "type": "Slider",
+      "new": true
     }
   ]
 }
