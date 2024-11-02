@@ -1,20 +1,27 @@
-import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const filePath = searchParams.get('path');
-
-  if (!filePath) {
-    return NextResponse.json({ error: 'No file path provided' }, { status: 400 });
-  }
-
+export async function GET(request: NextRequest) {
   try {
-    const fullPath = path.join(process.cwd(), filePath);
-    const fileContent = fs.readFileSync(fullPath, 'utf8');
-    return NextResponse.json({ content: fileContent });
+    const searchParams = request.nextUrl.searchParams;
+    const filePath = searchParams.get('path');
+
+    if (!filePath) {
+      return new Response('File path is required', { status: 400 });
+    }
+
+    // Ensure we're reading from the correct directory in production
+    const baseDir = process.cwd();
+    const fullPath = path.join(baseDir, filePath);
+    
+    const content = await fs.promises.readFile(fullPath, 'utf-8');
+    
+    return new Response(JSON.stringify({ content }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-    return NextResponse.json({ error: 'File not found' }, { status: 404 });
+    console.error('Error reading file:', error);
+    return new Response('Error reading file', { status: 500 });
   }
 }
