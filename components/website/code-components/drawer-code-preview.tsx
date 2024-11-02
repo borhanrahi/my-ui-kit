@@ -74,7 +74,7 @@ export default function DrawerCodePreview({
       <div className='absolute top-2 right-2 flex justify-center items-center gap-2'>
         <CopyButton
           code={parsedCode.value}
-          classname='relative top-0 left-0'
+          className='relative top-0 left-0'
         />
         <ResponsiveDrawer
           classname='max-w-screen-lg p-2'
@@ -95,7 +95,7 @@ export default function DrawerCodePreview({
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="typescript" className='mt-0 p-4'>
-                <CopyButton code={parsedCode.value} classname='top-6 right-10' />
+                <CopyButton code={parsedCode.value} className='top-6 right-10' />
                 <SyntaxHighlighter 
                   language="tsx"
                   style={oneDark}
@@ -109,7 +109,7 @@ export default function DrawerCodePreview({
                 </SyntaxHighlighter>
               </TabsContent>
               <TabsContent value="javascript" className='mt-0 p-4'>
-                <CopyButton code={jsCode} classname='top-6 right-10' />
+                <CopyButton code={jsCode} className='top-6 right-10' />
                 <SyntaxHighlighter 
                   language="javascript"
                   style={oneDark}

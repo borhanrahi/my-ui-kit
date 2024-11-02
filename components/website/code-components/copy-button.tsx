@@ -4,13 +4,15 @@ import { cn } from '@/lib/utils';
 import { Copy, CheckCheck } from 'lucide-react';
 import { useState } from 'react';
 
+interface CopyButtonProps {
+  code: string;
+  className?: string;
+}
+
 export function CopyButton({
   code,
   className,
-}: {
-  code: string;
-  className?: string;
-}) {
+}: CopyButtonProps) {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = () => {
