@@ -12,6 +12,7 @@ import { extractCodeFromFilePath } from '@/lib/code';
 import React from 'react';
 import { Code, Eye } from 'lucide-react';
 import { PreCoded } from './pre-coded';
+import { SpecialComponents, MainComponents } from '@/configs/docs';
 
 type ComponentCodePreview = {
   component: React.ReactElement;
@@ -53,7 +54,6 @@ export default async function ComponentCodePreview({
       }
       return acc;
     }, null);
-  // console.log(currComponent);
 
   if (!currComponent) {
     return <div>Component not found</div>;
@@ -62,9 +62,13 @@ export default async function ComponentCodePreview({
   const fileContent = extractCodeFromFilePath(
     `registry/${currComponent?.filesrc}`
   );
-  // console.log('childer', children);
 
-  // console.log(fileContent);
+  // Find the component config by matching the component name with the URL path
+  const componentConfig = [...SpecialComponents, ...MainComponents].find(
+    comp => comp.href.includes(name)
+  );
+  
+  const isCodeVisible = componentConfig?.codeVisible !== false;
 
   return (
     <div className='not-prose relative z-0 flex items-center justify-between pb-3'>
@@ -82,12 +86,13 @@ export default async function ComponentCodePreview({
           <TabsTrigger
             value={`${name}code`}
             className='flex gap-2 items-center data-[state=active]:bg-white data-[state=active]:border-b-2'
+            disabled={!isCodeVisible}
           >
             <Code className='w-5 h-5' /> Code
           </TabsTrigger>
         </TabsList>
         <TabsContent
-          className='mt-0  px-0 pb-0 pt-12 ring-offset-background '
+          className='mt-0 px-0 pb-0 pt-12 ring-offset-background'
           value={`${name}preview`}
         >
           <ComponentPreview
@@ -95,11 +100,11 @@ export default async function ComponentCodePreview({
             component={currComponent}
             code={fileContent}
             responsive={responsive}
-            isNotCopy={isNotCopy}
+            isNotCopy={!isCodeVisible}
             isFitheight={isFitheight}
           />
         </TabsContent>
-        <TabsContent className='mt-11  ' value={`${name}code`}>
+        <TabsContent className='mt-11' value={`${name}code`}>
           {!isTab && <PreCoded codeblock={fileContent} />}
           {children !== undefined && <div className='p-4 pt-2'>{children}</div>}
         </TabsContent>

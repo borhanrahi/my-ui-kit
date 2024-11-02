@@ -107,35 +107,32 @@ export default function ComponentPreview({
           </div>
         )}
         {!isNotCopy && (
-          <>
-            <button
-              className='relative grid cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5'
-              onClick={onCopy}
+          <button
+            className='relative grid cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5'
+            onClick={onCopy}
+          >
+            <div
+              className={`transform transition-all duration-300 ${hasCheckIcon ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
             >
-              <div
-                className={`transform transition-all duration-300 ${hasCheckIcon ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
-              >
-                <Copy className='h-5 w-5' />
-              </div>
-              <div
-                className={`absolute inset-0 left-0 top-0 grid h-full w-full transform place-content-center transition-all duration-300 ${
-                  hasCheckIcon ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-                }`}
-              >
-                <Check className='h-5 w-5' />
-              </div>
-            </button>
-
-            <a
-              href={`/preview/${component?.componentName}`}
-              target="_blank"
-              rel="noopener noreferrer" 
-              className='relative grid cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5 hover:bg-accent'
+              <Copy className='h-5 w-5' />
+            </div>
+            <div
+              className={`absolute inset-0 left-0 top-0 grid h-full w-full transform place-content-center transition-all duration-300 ${
+                hasCheckIcon ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+              }`}
             >
-              <ExternalLink className='h-5 w-5' />
-            </a>
-          </>
+              <Check className='h-5 w-5' />
+            </div>
+          </button>
         )}
+        <a
+          href={`/preview/${component?.componentName}`}
+          target="_blank"
+          rel="noopener noreferrer" 
+          className='relative grid cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5 hover:bg-accent'
+        >
+          <ExternalLink className='h-5 w-5' />
+        </a>
         {hasReTrigger && (
           <button
             className='relative grid group cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2'
