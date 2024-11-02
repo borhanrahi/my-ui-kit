@@ -54,15 +54,8 @@
       "componentArray": [
         {
           "componentName": "productcard1",
-          "filesrc": "components/card/product-card1.tsx",
+          "filesrc": "registry/components/card/product-card1.tsx",
           "iframeSrc": "live-components/productcard1",
-          "parentlink": "product-cards",
-          "parentName": "Product Cards"
-        },
-        {
-          "componentName": "productcard2",
-          "filesrc": "components/card/product-card2.tsx",
-          "iframeSrc": "live-components/productcard2",
           "parentlink": "product-cards",
           "parentName": "Product Cards"
         }
