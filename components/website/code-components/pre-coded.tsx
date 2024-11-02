@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Pre } from 'codehike/code';
-import * as shiki from 'shiki/bundle/web';
+import { createHighlighter } from 'shiki';
 import ts from 'typescript';
 import {
   Tabs,
@@ -41,20 +40,20 @@ export function PreCoded({
 
         let jsCode = result.outputText.replace(/"use strict";\s*/, '');
 
-        // Initialize the highlighter with specific theme
-        const highlighter = await shiki.getHighlighter({
+        // Initialize the highlighter
+        const highlighter = await createHighlighter({
           themes: ['github-dark'],
           langs: ['typescript', 'javascript', 'tsx', 'jsx']
         });
 
         // Highlight TypeScript code
-        const tsHighlighted = await highlighter.codeToHtml(codeblock, {
+        const tsHighlighted = highlighter.codeToHtml(codeblock, {
           lang: 'tsx',
           theme: 'github-dark'
         });
 
         // Highlight JavaScript code
-        const jsHighlighted = await highlighter.codeToHtml(jsCode, {
+        const jsHighlighted = highlighter.codeToHtml(jsCode, {
           lang: 'javascript',
           theme: 'github-dark'
         });
@@ -62,11 +61,7 @@ export function PreCoded({
         setTsHighlighted(tsHighlighted);
         setJsHighlighted(jsHighlighted);
       } catch (error) {
-        if (error instanceof Error) {
-          console.error('Error processing code:', error.message);
-        } else {
-          console.error('Unknown error occurred while processing code');
-        }
+        console.error('Error processing code:', error);
       }
     };
 
