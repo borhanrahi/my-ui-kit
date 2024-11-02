@@ -60,3 +60,14 @@ export const siteConfig = {
 };
 
 export type SiteConfig = typeof siteConfig;
+
+export const extractCodeFromFilePath = async (filePath: string): Promise<string> => {
+  try {
+    const response = await fetch(`/api/code?path=${filePath}`);
+    const data = await response.json();
+    return data.content || '';
+  } catch (error) {
+    console.error('Error fetching code:', error);
+    return '';
+  }
+};
