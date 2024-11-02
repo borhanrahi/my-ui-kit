@@ -1,55 +1,6 @@
 {
   "dataArray": [
     {
-      "name": "Buttons",
-      "componentArray": [
-        {
-          "componentName": "button-background-shine",
-          "filesrc": "components/button/btn-bg-shine.tsx",
-          "iframeSrc": "live-components/button-background-shine",
-          "parentlink": "buttons",
-          "parentName": "Buttons"
-        },
-        {
-          "componentName": "button-background-spotlight",
-          "filesrc": "components/button/btn-bg-spotlight.tsx",
-          "iframeSrc": "live-components/button-background-spotlight",
-          "parentlink": "buttons",
-          "parentName": "Buttons"
-        },
-        {
-          "componentName": "button-hover-active",
-          "filesrc": "components/button/btn-hover-active.tsx",
-          "iframeSrc": "live-components/button-hover-active",
-          "parentlink": "buttons",
-          "parentName": "Buttons"
-        },
-        {
-          "componentName": "button-hover-2",
-          "filesrc": "components/button/btn-hover2.tsx",
-          "iframeSrc": "live-components/button-hover-2",
-          "parentlink": "buttons",
-          "parentName": "Buttons"
-        },
-
-        {
-          "componentName": "creative-button-1",
-          "filesrc": "components/button/creative-btn1.tsx",
-          "iframeSrc": "live-components/creative-button-1",
-          "parentlink": "buttons",
-          "parentName": "Buttons"
-        },
-        {
-          "componentName": "creative-button-2",
-          "filesrc": "components/button/creative-btn2.tsx",
-          "iframeSrc": "live-components/creative-button-2",
-          "parentlink": "buttons",
-          "parentName": "Buttons"
-        }
-      ],
-      "type": "buttons"
-    },
-    {
       "name": "Product Cards",
       "componentArray": [
         {

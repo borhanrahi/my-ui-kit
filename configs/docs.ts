@@ -1,5 +1,4 @@
 export const SpecialComponents = [
-  { href: '/components/buttons', name: 'Buttons', codeVisible: true },
   {
     href: '/components/product-cards',
     name: 'Products-Cards',
