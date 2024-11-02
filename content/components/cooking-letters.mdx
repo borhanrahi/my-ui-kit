@@ -1,0 +1,46 @@
+export const metadata = {
+  title: 'Cooking Letters Animation',
+  description: 'A fluid text animation component that displays cooking-related messages with a 3D flip effect.'
+};
+
+# Cooking Letters Animation
+
+A dynamic text animation component that displays cooking-related messages with a smooth 3D flip transition effect. Built using Framer Motion and Tailwind CSS.
+
+## Preview
+
+<ComponentCodePreview name="cooking-letters" />
+
+## Usage
+
+```tsx
+import CookingLetters from '@/components/cooking-letters'
+
+export default function Page() {
+  return <CookingLetters />
+}
+```
+
+## Features
+
+- Smooth 3D flip animation for each character
+- Responsive text sizing
+- Staggered animation timing
+- Dark theme with white text on black background
+- Fully accessible and SEO-friendly
+- Built with Framer Motion for smooth animations
+- Optimized performance with GPU acceleration
+
+## Technical Details
+
+The component uses Framer Motion for smooth animations and Tailwind CSS for styling. Each character flips individually with a calculated delay based on its position, creating a wave-like animation effect.
+
+## Installation
+
+```bash
+npm install framer-motion
+```
+
+## Props
+
+This component is self-contained and doesn't accept any props. The text content is defined internally in the `COOKING_TEXTS` constant.

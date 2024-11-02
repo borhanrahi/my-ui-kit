@@ -1,19 +1,6 @@
 {
   "dataArray": [
     {
-      "name": "demo",
-      "componentArray": [
-        {
-          "componentName": "democomponent",
-          "filesrc": "components/demo/index.tsx",
-          "iframeSrc": "live-components/democomponent",
-          "parentlink": "demo",
-          "parentName": "demo"
-        }
-      ],
-      "type": "demo"
-    },
-    {
       "name": "Buttons",
       "componentArray": [
         {
@@ -63,20 +50,6 @@
       "type": "buttons"
     },
     {
-      "name": "Clip-Path",
-      "componentArray": [
-        {
-          "componentName": "creative-clippath",
-          "filesrc": "components/clip-path/clip-path-creative.tsx",
-          "iframeSrc": "live-components/creative-clippath",
-          "parentlink": "clip-path",
-          "parentName": "Clip Path"
-        }
-      ],
-      "type": "clip-path",
-      "new": true
-    },
-    {
       "name": "Product Cards",
       "componentArray": [
         {
@@ -122,6 +95,20 @@
         }
       ],
       "type": "creative",
+      "new": true
+    },
+    {
+      "name": "Cooking Letters",
+      "componentArray": [
+        {
+          "componentName": "cooking-letters",
+          "filesrc": "components/cooking-letters/cooking-letters.tsx",
+          "iframeSrc": "live-components/cooking-letters",
+          "parentlink": "cooking-letters",
+          "parentName": "Cooking Letters"
+        }
+      ],
+      "type": "cooking-letters",
       "new": true
     },
     {

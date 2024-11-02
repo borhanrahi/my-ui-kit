@@ -1,36 +1,32 @@
 export const SpecialComponents = [
   { href: '/components/buttons', name: 'Buttons', codeVisible: true },
   {
-    href: '/components/clip-path',
-    name: 'Clip Path',
-    new: true,
-    codeVisible: true,
-  },
-  {
     href: '/components/product-cards',
     name: 'Products-Cards',
     component: 'card',
     codeVisible: true,
   },
-  {
-    href: '/components/demo',
-    name: 'Demo Components',
-    new: true,
-    codeVisible: true,
-  },
 ];
+
 export const MainComponents = [
   {
     href: '/components/blur-vignette',
     name: 'Blur Vignette',
-    new: true,
+    new: false,
     component: 'creative',
+    codeVisible: true,
+  },
+  {
+    href: '/components/cooking-letters',
+    name: 'Cooking Letters',
+    new: true,
+    component: 'text effect',
     codeVisible: true,
   },
   {
     href: '/components/motion-number',
     name: 'Motion Number',
-    new: true,
+    new: false,
     component: 'creative',
     codeVisible: true,
   },

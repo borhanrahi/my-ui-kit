@@ -129,8 +129,9 @@ export default function ComponentPreview({
           href={`/preview/${component?.componentName}`}
           target="_blank"
           rel="noopener noreferrer" 
-          className='relative grid cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5 hover:bg-accent'
+          className='relative cursor-pointer place-content-center rounded-lg border bg-background p-2 px-2.5 hover:bg-accent flex items-center gap-2'
         >
+          <span>Open New Tab</span>
           <ExternalLink className='h-5 w-5' />
         </a>
         {hasReTrigger && (

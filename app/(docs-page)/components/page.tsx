@@ -66,6 +66,7 @@ export default function Home() {
                         height={100}
                         className='w-full h-full rounded-md'
                         inert={false}
+                        priority
                       />
                     </AspectRatio.Root>
                     <div className='sm:py-2 py-1 sm:px-4 px-2'>
