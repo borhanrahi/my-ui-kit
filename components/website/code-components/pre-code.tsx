@@ -28,7 +28,7 @@ export function PreCode({
         </div>
       )}
       <div className='relative mt-2'>
-        <CopyButton code={codeblock.value} classname='top-3.5' />
+        <CopyButton code={codeblock.value} className='top-3.5' />
         <div className={cn("rounded-lg border bg-[#011627] overflow-hidden", classname)}>
           <SyntaxHighlighter 
             language={codeblock.lang}
