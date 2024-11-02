@@ -69,7 +69,7 @@ export function PreCoded({
         </TabsList>
         <TabsContent value='typescript'>
           <div className={cn("rounded-lg border bg-[#011627] overflow-hidden", classname)}>
-            <CopyButton code={codeblock} classname={copyclass || 'top-3.5'} />
+            <CopyButton code={codeblock} className={copyclass || 'top-3.5'} />
             <SyntaxHighlighter 
               language="tsx"
               style={oneDark}
@@ -85,7 +85,7 @@ export function PreCoded({
         </TabsContent>
         <TabsContent value='javascript'>
           <div className={cn("rounded-lg border bg-[#011627] overflow-hidden", classname)}>
-            <CopyButton code={jsCode} classname={copyclass || 'top-3.5'} />
+            <CopyButton code={jsCode} className={copyclass || 'top-3.5'} />
             <SyntaxHighlighter 
               language="javascript"
               style={oneDark}
