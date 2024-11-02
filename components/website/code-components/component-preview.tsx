@@ -23,6 +23,8 @@ type ComponentPreviewProps = {
   isFitheight?: boolean;
   isNotCopy?: boolean;
   iframeComponent?: string;
+  previewComp?: boolean;
+  hideDeviceOpt?: boolean;
 };
 
 export default function ComponentPreview({

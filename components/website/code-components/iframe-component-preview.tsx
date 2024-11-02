@@ -89,7 +89,6 @@ export default async function IframeComponentPrieview(
           value={`${name}preview`}
         >
           <ComponentPreview
-            previewComp={previewComp}
             hideDeviceOpt={hideDeviceOpt}
             hasReTrigger={hasReTrigger}
             iframeComponent={currComponent.iframelink}
