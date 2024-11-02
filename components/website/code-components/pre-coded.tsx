@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createHighlighter } from 'shiki';
+import { Highlight, themes } from 'prism-react-renderer';
 import ts from 'typescript';
 import {
   Tabs,
@@ -22,58 +22,21 @@ export function PreCoded({
   tabclassname?: string;
   copyclass?: string;
 }) {
-  const [tshighlighted, setTsHighlighted] = useState<string | null>(null);
-  const [jshighlighted, setJsHighlighted] = useState<string | null>(null);
+  const [jsCode, setJsCode] = useState('');
 
   useEffect(() => {
-    const formatAndHighlightCode = async () => {
-      try {
-        // Transpile TypeScript to JavaScript
-        const result = ts.transpileModule(codeblock, {
-          compilerOptions: {
-            module: ts.ModuleKind.ESNext,
-            target: ts.ScriptTarget.ESNext,
-            jsx: ts.JsxEmit.Preserve,
-            removeComments: true,
-          },
-        });
+    // Transpile TypeScript to JavaScript
+    const result = ts.transpileModule(codeblock, {
+      compilerOptions: {
+        module: ts.ModuleKind.ESNext,
+        target: ts.ScriptTarget.ESNext,
+        jsx: ts.JsxEmit.Preserve,
+        removeComments: true,
+      },
+    });
 
-        let jsCode = result.outputText.replace(/"use strict";\s*/, '');
-
-        // Initialize the highlighter with bundled assets
-        const highlighter = await createHighlighter({
-          themes: ['github-dark'],
-          langs: ['typescript', 'javascript', 'tsx', 'jsx']
-        });
-
-        const tsHighlighted = highlighter.codeToHtml(codeblock, {
-          lang: 'tsx',
-          theme: 'github-dark'
-        });
-
-  
-        const jsHighlighted = highlighter.codeToHtml(jsCode, {
-          lang: 'javascript',
-          theme: 'github-dark'
-        });
-
-        setTsHighlighted(tsHighlighted);
-        setJsHighlighted(jsHighlighted);
-      } catch (error) {
-        console.error('Error processing code:', error);
-      }
-    };
-
-    formatAndHighlightCode();
+    setJsCode(result.outputText.replace(/"use strict";\s*/, ''));
   }, [codeblock]);
-
-  if (!tshighlighted || !jshighlighted) {
-    return (
-      <div className="flex items-center justify-center p-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
 
   return (
     <div className='relative'>
@@ -92,16 +55,38 @@ export function PreCoded({
           </TabsTrigger>
         </TabsList>
         <TabsContent value={'typescript'}>
-          <div 
-            className="prose dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: tshighlighted }} 
-          />
+          <Highlight theme={themes.nightOwl} code={codeblock} language="tsx">
+            {({ className, style, tokens, getLineProps, getTokenProps }) => (
+              <pre className="p-4 rounded-lg bg-[#011627] overflow-x-auto">
+                <code className={className} style={style}>
+                  {tokens.map((line, i) => (
+                    <div key={i} {...getLineProps({ line })}>
+                      {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({ token })} />
+                      ))}
+                    </div>
+                  ))}
+                </code>
+              </pre>
+            )}
+          </Highlight>
         </TabsContent>
         <TabsContent value={'javascript'}>
-          <div 
-            className="prose dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: jshighlighted }} 
-          />
+          <Highlight theme={themes.nightOwl} code={jsCode} language="javascript">
+            {({ className, style, tokens, getLineProps, getTokenProps }) => (
+              <pre className="p-4 rounded-lg bg-[#011627] overflow-x-auto">
+                <code className={className} style={style}>
+                  {tokens.map((line, i) => (
+                    <div key={i} {...getLineProps({ line })}>
+                      {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({ token })} />
+                      ))}
+                    </div>
+                  ))}
+                </code>
+              </pre>
+            )}
+          </Highlight>
         </TabsContent>
       </Tabs>
     </div>
