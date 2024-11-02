@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Pre } from 'codehike/code';
-import * as shiki from 'shiki';
+import * as shiki from 'shiki/bundle/web';
 import ts from 'typescript';
 import {
   Tabs,
@@ -44,7 +44,7 @@ export function PreCoded({
         // Initialize the highlighter with specific theme
         const highlighter = await shiki.getHighlighter({
           themes: ['github-dark'],
-          langs: ['typescript', 'javascript', 'tsx', 'jsx'],
+          langs: ['typescript', 'javascript', 'tsx', 'jsx']
         });
 
         // Highlight TypeScript code
