@@ -165,8 +165,18 @@ const withMDX = createMDX({
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   experimental: {
-    // Add this to handle JSON imports more cleanly
-    json: true
+    json: true,
+    serverActions: true,
+    mdxRs: true
+  },
+  typescript: {
+    ignoreBuildErrors: false
+  },
+  poweredByHeader: false,
+  reactStrictMode: true,
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production"
   },
   images: {
     remotePatterns: [

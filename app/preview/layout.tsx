@@ -12,8 +12,10 @@ export default function PreviewLayout({
       enableSystem
       disableTransitionOnChange
     >
-      <div className="min-h-screen">
-        {children}
+      <div className="min-h-screen w-full bg-background antialiased">
+        <main className="relative flex min-h-screen flex-col">
+          {children}
+        </main>
       </div>
     </ThemeProvider>
   );
