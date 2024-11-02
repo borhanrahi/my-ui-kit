@@ -1,10 +1,11 @@
-export const extractCodeFromFilePath = async (filePath: string) => {
+export async function extractCodeFromFilePath(path: string): Promise<string> {
   try {
-    const response = await fetch(`/api/code?path=${filePath}`);
+    const response = await fetch(`/api/code?path=${encodeURIComponent(path)}`);
+    if (!response.ok) throw new Error('Failed to fetch code');
     const data = await response.json();
-    return data.content;
+    return data.content || '';
   } catch (error) {
-    console.error('Error fetching code:', error);
+    console.error('Error extracting code:', error);
     return '';
   }
-};
+}
