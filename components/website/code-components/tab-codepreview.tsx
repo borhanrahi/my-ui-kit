@@ -18,40 +18,16 @@ export default function TabCodePreview({ children }: CodePreviewProps) {
   const parsedCodes = Codes.map((code: React.ReactElement) => {
     const props = code.props;
 
-    if (!props?.codeblock) {
-      return {
-        ...code,
-        props: {
-          ...props,
-          codeblock: { value: '', lang: 'tsx', meta: '' }
-        }
-      };
-    }
-
-    try {
-      const codeblock = typeof props.codeblock === 'string' 
-        ? JSON.parse(props.codeblock)
-        : props.codeblock;
-        
-      return {
-        ...code,
-        props: {
-          ...props,
-          codeblock
-        }
-      };
-    } catch (error) {
-      console.error('Error parsing codeblock:', error);
-      return {
-        ...code,
-        props: {
-          ...props,
-          codeblock: { value: '', lang: 'tsx', meta: '' }
-        }
-      };
-    }
+    // Check if the codeblock exists and parse the value if necessary
+    return {
+      ...code,
+      props: {
+        ...props,
+        codeblock: JSON.parse(props.codeblock),
+        // Apply JSON.parse here
+      },
+    };
   });
-
   // console.log('parseCodes', parsedCodes[0].props);
 
   // Helper function to format parseCodes.children into the correct format
@@ -115,7 +91,7 @@ export default function TabCodePreview({ children }: CodePreviewProps) {
   return (
     <>
       <Tabs
-        defaultValue={`${updatedCodes[0].props.componentname}-${updatedCodes[0].props.filename}`}
+        defaultValue={`${updatedCodes[0]?.props.componentname}-${updatedCodes[0]?.props.filename}`}
         className='w-full relative mt-1 mb-4'
       >
         <TabsList className='mb-0  bg-muted px-0.5'>

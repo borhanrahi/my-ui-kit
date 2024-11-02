@@ -47,27 +47,37 @@ export function throttle(fn: (...args: any[]) => any, wait: number) {
 }
 
 export const siteConfig = {
-  name: 'UI-Layout-starter-kit',
-  url: 'https://uilayout-starter-repo.vercel.app/',
-  ogImage: 'https://uilayout-starter-repo.vercel.app/og.jpg',
+  name: 'my-ui-kit',
+  url: 'https://my-ui-kit.vercel.app/',
   description:
-    'An open-source starter repo for those who want to create their own component library.',
+    'An open-source starter repo',
   links: {
-    twitter: 'https://twitter.com/naymur_dev',
-    linkedin: 'https://www.linkedin.com/in/naymur-rahman',
-    github: 'https://github.com/naymurdev',
+    twitter: 'https://x.com/borhan_rahi',
+    linkedin: 'https://www.linkedin.com/in/borhanrahi/',
+    github: 'https://github.com/borhanrahi',
   },
 };
 
 export type SiteConfig = typeof siteConfig;
 
-export const extractCodeFromFilePath = async (filePath: string): Promise<string> => {
+export async function extractCodeFromFilePath(filepath: string) {
   try {
-    const response = await fetch(`/api/code?path=${filePath}`);
+    const response = await fetch(`/api/code?file=${encodeURIComponent(filepath)}`, {
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    });
+    
+    if (!response.ok) {
+      console.error('Failed to fetch code:', response.statusText);
+      return '';
+    }
+    
     const data = await response.json();
-    return data.content || '';
+    return data.code;
   } catch (error) {
     console.error('Error fetching code:', error);
     return '';
   }
-};
+}

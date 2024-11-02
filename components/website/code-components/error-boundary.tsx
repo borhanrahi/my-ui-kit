@@ -1,9 +1,8 @@
 'use client';
-
-import { Component, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface State {
@@ -19,17 +18,15 @@ export class CodeErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
+  public componentDidError(error: Error, errorInfo: ErrorInfo) {
+    console.error('Error:', error, errorInfo);
+  }
+
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="p-4 border border-red-500 rounded-md">
-          <h2 className="text-red-500">Something went wrong rendering the code preview.</h2>
-          <button
-            className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md"
-            onClick={() => this.setState({ hasError: false })}
-          >
-            Try again
-          </button>
+        <div className="p-4 text-red-500 border border-red-300 rounded">
+          <h2>Something went wrong rendering this code.</h2>
         </div>
       );
     }

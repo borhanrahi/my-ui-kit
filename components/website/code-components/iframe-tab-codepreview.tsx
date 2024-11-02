@@ -1,5 +1,5 @@
-'use client';
-
+import { Block, CodeBlock, parseProps } from 'codehike/blocks';
+import { Pre, RawCode, highlight } from 'codehike/code';
 import { z } from 'zod';
 import {
   Tabs,
@@ -9,49 +9,45 @@ import {
 } from '@/components/website/ui/tabs';
 import { PreCode } from './pre-code';
 
-type TabCodeBlock = {
-  value: string;
-  lang: string;
-  meta: string;
-};
+const Schema = Block.extend({
+  tabs: z.array(CodeBlock), // Assuming CodeBlock is a Zod schema
+});
+export default async function IframeTabCodePreview(props: unknown) {
+  const { tabs } = parseProps(props, Schema);
 
-interface IframeTabCodePreviewProps {
-  tabs: TabCodeBlock[];
-}
-
-export default function IframeTabCodePreview(props: IframeTabCodePreviewProps) {
-  const { tabs } = props;
-
-  if (!tabs || tabs.length === 0) return null;
-
+  const highlighted = await Promise.all(
+    tabs.map((tab) => highlight(tab, 'github-dark'))
+  );
   return (
     <>
       {tabs.length > 1 ? (
-        <Tabs defaultValue={tabs[0]?.meta}>
-          <TabsList>
-            {tabs.map((tab) => (
-              <TabsTrigger key={tab.meta} value={tab.meta} className='h-8'>
-                {tab.meta}
-              </TabsTrigger>
+        <>
+          <Tabs defaultValue={tabs[0]?.meta}>
+            <TabsList>
+              {tabs.map((tab) => (
+                <TabsTrigger key={tab.meta} value={tab.meta} className=' h-8'>
+                  {tab.meta}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            {tabs.map((tab, i) => (
+              <TabsContent key={tab.meta} value={tab.meta} className='mt-0'>
+                <PreCode
+                  codeblock={highlighted[i]}
+                  classname={'border-none'}
+                  metahide
+                />
+              </TabsContent>
             ))}
-          </TabsList>
-          {tabs.map((tab) => (
-            <TabsContent key={tab.meta} value={tab.meta} className='mt-0'>
-              <PreCode
-                codeblock={tab}
-                classname='border-none'
-                metahide
-              />
-            </TabsContent>
-          ))}
-        </Tabs>
+          </Tabs>
+        </>
       ) : (
         <>
-          {tabs.map((tab) => (
+          {tabs.map((tab, i) => (
             <PreCode
               key={tab.meta}
-              codeblock={tab}
-              classname='border-none'
+              codeblock={highlighted[i]}
+              classname={'border-none'}
               metahide
             />
           ))}

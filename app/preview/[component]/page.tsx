@@ -29,17 +29,23 @@ export default async function PreviewPage({ params }: PageProps) {
     return notFound();
   }
 
-  // Fetch the component code
-  const code = await extractCodeFromFilePath(`registry/${currComponent.filesrc}`);
+  // Fetch the component code directly
+  const code = await extractCodeFromFilePath(currComponent.filesrc);
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-6 space-y-8">
         <PreviewComponent componentPath={currComponent.filesrc} />
         
-        <div className="rounded-lg border bg-[#011627] p-4">
-          <CodeHighlighter code={code} />
-        </div>
+        {code ? (
+          <div className="rounded-lg border bg-[#011627] p-4">
+            <CodeHighlighter code={code} />
+          </div>
+        ) : (
+          <div className="rounded-lg border p-4 text-center">
+            No code available
+          </div>
+        )}
       </div>
     </div>
   );

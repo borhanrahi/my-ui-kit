@@ -7,6 +7,8 @@ import { GeistMono } from 'geist/font/mono';
 import Progressbar from '@/lib/progressbar';
 import { siteConfig } from '@/lib/utils';
 import '@/styles/syntax-highlighting.css';
+import 'prismjs/themes/prism-tomorrow.css';
+
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: siteConfig.ogImage,
+        url: siteConfig.url,
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -63,7 +65,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [siteConfig.ogImage],
+    images: [`${siteConfig.url}/og-image.jpg`],
     creator: '@borhan_rahi',
   },
   icons: {

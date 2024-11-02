@@ -10,7 +10,7 @@ import {
   Smartphone,
   Tablet,
 } from 'lucide-react';
-import React, { useState, useEffect, useRef, Suspense, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { TCurrComponentProps } from './component-code-preview';
 import dynamic from 'next/dynamic';
 
@@ -54,9 +54,7 @@ export default function ComponentPreview({
       setHasCheckIcon(false);
     }, 1000);
   };
-  // console.log(component);
 
-  // Memoize the ComponentPreview to prevent re-rendering
   const MemoizedComponentPreview = useMemo(() => {
     return component?.filesrc
       ? dynamic(() => import(`../../../registry/${component.filesrc}`), {
@@ -68,7 +66,6 @@ export default function ComponentPreview({
         })
       : null;
   }, [component?.filesrc]);
-  // console.log(iframeComponent);
 
   return (
     <>

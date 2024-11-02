@@ -1,4 +1,4 @@
-import preview from '@/assets/preview';
+
 
 export const generateSidebarData = (dataArray: any[]) => {
   return dataArray.reduce((acc: any, item: any) => {
@@ -10,7 +10,15 @@ export const generateSidebarData = (dataArray: any[]) => {
     return acc;
   }, {});
 };
-
+export const lineNumbers = {
+  name: "line-numbers",
+  handler: (props: any) => {
+    return {
+      ...props,
+      showLineNumbers: true
+    };
+  }
+};
 // Your other constants
 export const wordWrap = {
   name: 'word-wrap',
@@ -21,6 +29,7 @@ export const callout = {
   name: 'callout',
   className: 'relative'
 };
+
 
 // Add this export along with the existing generateSidebarData function
 export const CardArr = [

@@ -1,36 +1,23 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+import { extractCodeFromFilePath } from '@/lib/code';
 import { PreCode } from './pre-code';
-import { extractCodeFromFilePath } from '@/lib/utils';
 
 type CodeBlockProps = {
-  componentfile: string;
-  classname?: string;
+  filePath: string;
 };
 
-export default function CodeBlock({ componentfile, classname }: CodeBlockProps) {
-  const [fileContent, setFileContent] = useState<string>('');
-
-  useEffect(() => {
-    const loadContent = async () => {
-      const content = await extractCodeFromFilePath(`registry/${componentfile}`);
-      setFileContent(content);
-    };
-    
-    loadContent();
-  }, [componentfile]);
+export default async function CodeBlock({ filePath }: CodeBlockProps) {
+  const fileContent = await extractCodeFromFilePath(filePath);
 
   return (
-    <div className="relative">
+    <>
       <PreCode
         codeblock={{
           value: fileContent,
           lang: 'tsx',
           meta: '',
         }}
-        classname={classname}
+        classname={'border-none'}
       />
-    </div>
+    </>
   );
 }
