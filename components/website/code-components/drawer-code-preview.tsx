@@ -83,6 +83,12 @@ export default async function DrawerCodePreview({
   // if (isDesktop) {
   // console.log(parsedCodeblock.codeblock);
   const getcode = parsedCode;
+
+  // Add validation before transpilation
+  if (!getcode) {
+    return <div>No code content available</div>;
+  }
+
   const result = ts.transpileModule(getcode, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
