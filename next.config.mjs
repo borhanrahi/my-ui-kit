@@ -168,7 +168,6 @@ const nextConfig = {
     json: true,
     serverActions: true,
     mdxRs: true,
-    serverComponentsExternalPackages: ['shiki', 'vscode-oniguruma']
   },
   typescript: {
     ignoreBuildErrors: false

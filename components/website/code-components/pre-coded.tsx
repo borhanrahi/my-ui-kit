@@ -46,13 +46,12 @@ export function PreCoded({
           langs: ['typescript', 'javascript', 'tsx', 'jsx']
         });
 
-        // Highlight TypeScript code
         const tsHighlighted = highlighter.codeToHtml(codeblock, {
           lang: 'tsx',
           theme: 'github-dark'
         });
 
-        // Highlight JavaScript code
+  
         const jsHighlighted = highlighter.codeToHtml(jsCode, {
           lang: 'javascript',
           theme: 'github-dark'
