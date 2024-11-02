@@ -52,23 +52,7 @@ const StackedCardsAutoplay = () => {
 
   return (
     <main className='grid min-h-[600px] grid-cols-1 lg:grid-cols-2 place-items-center bg-black w-full'>
-      <div className='px-6 md:px-12 lg:px-16 text-[#c7c7c7c9] select-none lg:order-1 text-center lg:text-left'>
-        <h1 className="font-['Dancing_Script'] text-[clamp(2rem,4vw,4rem)] font-bold bg-gradient-to-r from-[#f76591] to-[#ffc16f] bg-clip-text text-transparent leading-tight mb-6">
-          Artisanal Delights Gallery
-        </h1>
-        <p className='text-[clamp(0.875rem,2vw,1rem)] leading-relaxed lg:pr-8'>
-          Explore our curated collection of handcrafted masterpieces. Each image
-          tells a story of passion and precision in the art of pastry making.
-          Swipe or drag to discover more, or let the automatic slideshow guide
-          you through our delectable journey. Each creation is a testament to
-          our dedication to culinary excellence and artistic expression.
-        </p>
-        <button className='mt-4 px-4 py-2 bg-gradient-to-r from-[#ffc16f] to-[#f76591] text-white rounded-md font-semibold text-sm transform hover:scale-95 transition-all duration-200 hover:shadow-lg hover:shadow-[#f76591]/50'>
-          View Collection
-        </button>
-      </div>
-
-      <div className='relative w-full h-[400px] md:h-[500px] lg:h-[600px]'>
+      <div className='order-1 lg:order-2 relative w-full h-[400px] md:h-[500px] lg:h-[600px]'>
         <AnimatePresence mode="popLayout">
           {cards.map((card, index) => (
             <motion.div
@@ -78,14 +62,14 @@ const StackedCardsAutoplay = () => {
                 zIndex: cards.length - index,
               }}
               initial={{ 
-                x: `calc(-50% + ${30 * (cards.length - 1 - index)}px)`,
+                x: `calc(-50% + ${30 * (cards.length - 1 - index)}px - 100px)`,
                 y: "-50%",
                 scale: 1 - (index * 0.05),
                 rotateY: index === cards.length - 1 ? 90 : 0,
                 opacity: index === cards.length - 1 ? 0 : 1,
               }}
               animate={{
-                x: `calc(-50% + ${30 * (cards.length - 1 - index)}px)`,
+                x: `calc(-50% + ${30 * (cards.length - 1 - index)}px - 100px)`,
                 y: "-50%",
                 scale: index === 0 && isVanishing ? 1.1 : 1 - (index * 0.05),
                 rotateY: 0,
@@ -129,6 +113,22 @@ const StackedCardsAutoplay = () => {
             </motion.div>
           ))}
         </AnimatePresence>
+      </div>
+
+      <div className='order-2 lg:order-1 px-6 md:px-12 lg:px-16 text-[#c7c7c7c9] select-none text-center lg:text-left'>
+        <h1 className="font-['Dancing_Script'] text-[clamp(2rem,4vw,4rem)] font-bold bg-gradient-to-r from-[#f76591] to-[#ffc16f] bg-clip-text text-transparent leading-tight mb-6">
+          Artisanal Delights Gallery
+        </h1>
+        <p className='text-[clamp(0.875rem,2vw,1rem)] leading-relaxed lg:pr-8'>
+          Explore our curated collection of handcrafted masterpieces. Each image
+          tells a story of passion and precision in the art of pastry making.
+          Swipe or drag to discover more, or let the automatic slideshow guide
+          you through our delectable journey. Each creation is a testament to
+          our dedication to culinary excellence and artistic expression.
+        </p>
+        <button className='mt-4 px-4 py-2 bg-gradient-to-r from-[#ffc16f] to-[#f76591] text-white rounded-md font-semibold text-sm transform hover:scale-95 transition-all duration-200 hover:shadow-lg hover:shadow-[#f76591]/50'>
+          View Collection
+        </button>
       </div>
     </main>
   );

@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const COOKING_TEXTS = [
-  "Everybody can cook.",
-  "You can cook.",
-  "Just cook it.",
-  "Tailwind CSS.",
-"Framer Motion"
+  "Everybody can cook",
+  "You can cook",
+  "Just cook it",
+  "Tailwind CSS",
+  "Framer Motion"
 ];
 
 const CookingLetters = () => {
@@ -19,85 +19,81 @@ const CookingLetters = () => {
   }, []);
 
   return (
-    <div className='relative perspective-[1000px] min-h-screen w-full bg-black'>
-      <main className='flex flex-col gap-4 transition-transform duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-        <AnimatePresence>
-          {chars.map((text, idx) => (
-            <motion.p
-              key={idx}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className={`m-0 font-geist font-extralight leading-none w-fit text-white
-                ${idx === 0 ? "text-5xl md:text-6xl" : ""}
-                ${idx === 1 ? "text-4xl md:text-5xl" : ""}
-                ${idx === 2 ? "text-3xl md:text-4xl" : ""}
-                ${idx === 3 ? "text-2xl md:text-3xl" : ""}
-              `}
-            >
-              {text.map((char, charIdx) => (
+    <div className="flex flex-col gap-8 w-full max-w-5xl mx-auto px-8 pt-16 md:pt-24">
+      <AnimatePresence>
+        {chars.map((text, idx) => (
+          <motion.p
+            key={idx}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className={`font-geist font-extralight leading-tight text-center w-full text-white tracking-normal
+              ${idx === 0 ? "text-4xl md:text-6xl tracking-wide" : ""}
+              ${idx === 1 ? "text-3xl md:text-5xl" : ""}
+              ${idx === 2 ? "text-2xl md:text-4xl" : ""}
+              ${idx === 3 ? "text-xl md:text-3xl" : ""}
+            `}
+          >
+            {text.map((char, charIdx) => (
+              <motion.span
+                key={charIdx}
+                className="inline-block relative leading-none align-middle text-transparent mx-[0.01em]"
+                style={{
+                  perspective: "1000px",
+                  transformStyle: "preserve-3d",
+                }}
+                initial={{ rotateX: 0 }}
+                animate={{
+                  rotateX: 90,
+                  transition: {
+                    duration: 2,
+                    delay: (charIdx * 0.08) - (idx * 0.15),
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  },
+                }}
+              >
+                {char}
                 <motion.span
-                  key={charIdx}
-                  className='inline-block relative h-[0.9em] leading-none align-middle text-transparent transform-gpu'
-                  initial={{ rotateX: 0 }}
+                  className="absolute inset-0 text-white"
+                  style={{ backfaceVisibility: "hidden" }}
+                  initial={{ opacity: 1 }}
                   animate={{
-                    rotateX: 90,
+                    opacity: 0,
                     transition: {
-                      duration: 2.2,
-                      delay:
-                        Math.sin(((charIdx / text.length) * Math.PI) / 2) *
-                          0.55 -
-                        idx * -0.25,
+                      duration: 2,
+                      delay: (charIdx * 0.08) - (idx * 0.15),
                       repeat: Infinity,
                       ease: "easeInOut",
                     },
                   }}
                 >
                   {char}
-                  <motion.span
-                    className='absolute top-1/2 left-1/2 h-[1em] w-full -translate-x-1/2 -translate-y-1/2 transform-gpu text-white'
-                    initial={{ opacity: 1 }}
-                    animate={{
-                      opacity: 0,
-                      transition: {
-                        duration: 2.2,
-                        delay:
-                          Math.sin(((charIdx / text.length) * Math.PI) / 2) *
-                            0.55 -
-                          idx * -0.25,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      },
-                    }}
-                  >
-                    {char}
-                  </motion.span>
-                  <motion.span
-                    className='absolute top-1/2 left-1/2 h-[1em] w-full -translate-x-1/2 -translate-y-1/2 transform-gpu text-white'
-                    style={{
-                      transform: "rotateX(-90deg) translateZ(0.45em)",
-                    }}
-                    initial={{ opacity: 0 }}
-                    animate={{
-                      opacity: 1,
-                      transition: {
-                        duration: 2.2,
-                        delay:
-                          Math.sin(((charIdx / text.length) * Math.PI) / 2) *
-                            0.55 -
-                          idx * -0.25,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      },
-                    }}
-                  >
-                    {char}
-                  </motion.span>
                 </motion.span>
-              ))}
-            </motion.p>
-          ))}
-        </AnimatePresence>
-      </main>
+                <motion.span
+                  className="absolute inset-0 text-white"
+                  style={{
+                    transform: "rotateX(-90deg) translateZ(0.5em)",
+                    transformOrigin: "bottom",
+                    backfaceVisibility: "hidden"
+                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+                    transition: {
+                      duration: 2,
+                      delay: (charIdx * 0.08) - (idx * 0.15),
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    },
+                  }}
+                >
+                  {char}
+                </motion.span>
+              </motion.span>
+            ))}
+          </motion.p>
+        ))}
+      </AnimatePresence>
     </div>
   );
 };
