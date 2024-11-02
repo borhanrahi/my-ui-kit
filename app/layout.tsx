@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/website/theme-provider';
 import { GeistMono } from 'geist/font/mono';
 import Progressbar from '@/lib/progressbar';
 import { siteConfig } from '@/lib/utils';
+import '@/styles/syntax-highlighting.css';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -37,8 +38,8 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: 'naymur rahman',
-      url: 'https://naymur-rahman.com/',
+      name: 'borhan uddin',
+      url: 'https://github.com/borhanrahi',
     },
   ],
   creator: 'naymur',
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: '@naymur_dev',
+    creator: '@borhan_rahi',
   },
   icons: {
     icon: '/favicon.ico',

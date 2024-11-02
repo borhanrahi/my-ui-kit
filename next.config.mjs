@@ -6,13 +6,8 @@ import remarkGfm from 'remark-gfm';
 const docsData = await import('./configs/docs.json', {
   with: { type: 'json' }
 }).then(module => module.default);
-// import dataArray from './configs/docs';
 
 const { dataArray } = docsData;
-
-const chConfig = {
-  components: { code: 'PreCode' },
-};
 
 const withMDX = createMDX({
   extension: /\.mdx?$/,
@@ -22,6 +17,7 @@ const withMDX = createMDX({
     jsx: true,
   },
 });
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
@@ -65,7 +61,6 @@ const nextConfig = {
       },
     ],
   },
-  // Add other Next.js config options here
 };
 
 export default withMDX(nextConfig);

@@ -1,7 +1,7 @@
 'use client';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { CopyButton } from './copy-button';
 import { cn } from '@/lib/utils';
 
@@ -27,19 +27,21 @@ export function PreCode({
           {codeblock.meta}
         </div>
       )}
-      <div className='relative'>
+      <div className='relative mt-2'>
         <CopyButton code={codeblock.value} classname='top-3.5' />
-        <SyntaxHighlighter 
-          language={codeblock.lang}
-          style={oneDark}
-          customStyle={{
-            backgroundColor: 'transparent',
-            padding: '1.5rem',
-            borderRadius: '0.5rem',
-          }}
-        >
-          {codeblock.value}
-        </SyntaxHighlighter>
+        <div className={cn("rounded-lg border bg-[#011627] overflow-hidden", classname)}>
+          <SyntaxHighlighter 
+            language={codeblock.lang}
+            style={oneDark}
+            customStyle={{
+              margin: 0,
+              padding: '1.5rem',
+              background: 'transparent',
+            }}
+          >
+            {codeblock.value}
+          </SyntaxHighlighter>
+        </div>
       </div>
     </div>
   );

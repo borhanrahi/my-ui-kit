@@ -1,0 +1,61 @@
+/* Base styles for code blocks */
+pre {
+  background: #011627 !important;
+  border-radius: 0.5rem;
+  padding: 1.5rem !important;
+  margin: 0 !important;
+  overflow-x: auto;
+}
+
+/* Token colors - similar to oneDark theme */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #637777;
+  font-style: italic;
+}
+
+.token.function {
+  color: #82AAFF;
+}
+
+.token.keyword {
+  color: #c792ea;
+}
+
+.token.string {
+  color: #ecc48d;
+}
+
+.token.number {
+  color: #F78C6C;
+}
+
+.token.operator {
+  color: #89DDFF;
+}
+
+.token.class-name {
+  color: #FFCB8B;
+}
+
+.token.property {
+  color: #80CBC4;
+}
+
+.token.punctuation {
+  color: #89DDFF;
+}
+
+.token.boolean {
+  color: #ff5874;
+}
+
+.token.constant {
+  color: #82AAFF;
+}
+
+.token.variable {
+  color: #addb67;
+}

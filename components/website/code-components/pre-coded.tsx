@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import ts from 'typescript';
 import {
   Tabs,
@@ -55,30 +55,34 @@ export function PreCoded({
           </TabsTrigger>
         </TabsList>
         <TabsContent value={'typescript'}>
-          <SyntaxHighlighter 
-            language="tsx"
-            style={oneDark}
-            customStyle={{
-              backgroundColor: 'transparent',
-              padding: '1.5rem',
-              borderRadius: '0.5rem',
-            }}
-          >
-            {codeblock}
-          </SyntaxHighlighter>
+          <div className="rounded-lg border bg-[#011627] overflow-hidden">
+            <SyntaxHighlighter 
+              language="tsx"
+              style={oneDark}
+              customStyle={{
+                margin: 0,
+                padding: '1.5rem',
+                background: 'transparent',
+              }}
+            >
+              {codeblock}
+            </SyntaxHighlighter>
+          </div>
         </TabsContent>
         <TabsContent value={'javascript'}>
-          <SyntaxHighlighter 
-            language="javascript"
-            style={oneDark}
-            customStyle={{
-              backgroundColor: 'transparent',
-              padding: '1.5rem',
-              borderRadius: '0.5rem',
-            }}
-          >
-            {jsCode}
-          </SyntaxHighlighter>
+          <div className="rounded-lg border bg-[#011627] overflow-hidden">
+            <SyntaxHighlighter 
+              language="javascript"
+              style={oneDark}
+              customStyle={{
+                margin: 0,
+                padding: '1.5rem',
+                background: 'transparent',
+              }}
+            >
+              {jsCode}
+            </SyntaxHighlighter>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

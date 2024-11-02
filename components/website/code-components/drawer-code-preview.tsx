@@ -1,53 +1,33 @@
-// import { TabsProvider, TabsBtn, TabsContent } from './tabs';
+'use client';
+
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import ts from 'typescript';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/components/website/ui/tabs';
-import docs from '@/configs/docs.json';
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@/components/website/ui/dialog';
-import { Pre, RawCode, highlight } from 'codehike/code';
-
 import {
   DrawerContent,
   ResponsiveDrawer,
 } from '@/components/core/drawer/vaul-main';
-import ComponentPreview from './component-preview';
-import { extractCodeFromFilePath } from '@/lib/code';
 import React from 'react';
-import { Code, Eye, Maximize2 } from 'lucide-react';
-import prettier from 'prettier';
-
+import { Maximize2 } from 'lucide-react';
 import { CopyButton } from './copy-button';
-import { ScrollArea } from '../ui/scroll-area';
 import ComponentBlocks from './component-block';
-import { callout, wordWrap } from '../constant';
 import { cn } from '@/lib/utils';
-import ts from 'typescript';
 
 type ComponentCodePreview = {
-  component: React.ReactElement;
   hasReTrigger?: boolean;
   name: string;
-  children: React.ReactNode; //
-  responsive?: boolean;
+  children: React.ReactNode;
   isCard?: string;
-};
-export type TCurrComponentProps = {
-  componentName: string;
-  iframeSrc?: string;
-  componentSrc?: React.LazyExoticComponent<React.FC<{}>>;
-  filesrc?: string;
-  compIframeSrc?: string;
-  filesArray?: any;
+  responsive?: boolean;
 };
 
-export default async function DrawerCodePreview({
+export default function DrawerCodePreview({
   hasReTrigger,
   name,
   children,
@@ -62,34 +42,14 @@ export default async function DrawerCodePreview({
     parsedCode = typeof codeblock === 'string' ? JSON.parse(codeblock) : codeblock;
   } catch (error) {
     console.error('Error parsing codeblock:', error);
-    parsedCode = '';
+    return <div>Error parsing code</div>;
   }
 
-  const currComponent = docs.dataArray.reduce<TCurrComponentProps | null>((acc, component) => {
-    const file = component?.componentArray?.find(
-      (file) => file.componentName === name
-    );
-    if (file) acc = file;
-    return acc;
-  }, null);
-
-  if (!currComponent) {
-    return <div>Component not found</div>;
-  }
-
-  // console.log('childer', children);
-
-  // const isDesktop = useMediaQuery('(min-width: 768px)');
-  // if (isDesktop) {
-  // console.log(parsedCodeblock.codeblock);
-  const getcode = parsedCode;
-
-  // Add validation before transpilation
-  if (!getcode) {
+  if (!parsedCode) {
     return <div>No code content available</div>;
   }
 
-  const result = ts.transpileModule(getcode, {
+  const result = ts.transpileModule(parsedCode.value || '', {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ESNext,
@@ -98,113 +58,74 @@ export default async function DrawerCodePreview({
     },
   });
 
-  let jsCode = result.outputText.replace(/"use strict";\s*/, '');
-
-  // Format JavaScript code using Prettier
-  const formattedJsCode = await prettier.format(jsCode, {
-    parser: 'babel',
-    semi: true,
-    singleQuote: true,
-    trailingComma: 'es5',
-    printWidth: 80,
-    jsxBracketSameLine: true, // Keep JSX tags in one line
-  });
-
-  const tsCode = {
-    value: getcode,
-    lang: 'tsx',
-    meta: '',
-  };
-
-  const jsCodeblock = {
-    value: formattedJsCode,
-    lang: 'js',
-    meta: '',
-  };
-
-  // Highlight the code
-  const tshighlighted = await highlight(tsCode, 'github-from-css');
-  const jshighlighted = await highlight(jsCodeblock, 'github-from-css');
+  const jsCode = result.outputText.replace(/"use strict";\s*/, '');
 
   return (
-    <>
-      <div
-        className={`${
-          isCard ? 'p-10 h-[550px]' : '2xl:p-20 py-16 px-2 h-fit'
-        } my-2 w-full border-2  rounded-lg overflow-hidden  dark:bg-[#080b11] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px] relative grid place-content-center`}
-      >
-        <div className='not-prose'>
-          <ComponentBlocks componentfile={parsedCode.filesrc} />
-        </div>
-
-        <div className='absolute top-2 right-2 flex justify-center items-center gap-2  '>
-          <CopyButton
-            code={parsedCode.codeblock}
-            classname=' relative top-0 left-0'
-          />
-          <ResponsiveDrawer
-            classname=' max-w-screen-lg p-2 '
-            triggerContent={
-              <button className='  bg-foreground rounded-lg p-2 h-8 w-8 grid place-content-center '>
-                <Maximize2 className='dark:text-black text-white h-5 w-5' />
-              </button>
-            }
-          >
-            <DrawerContent classname='2xl:max-h-[62vh] max-h-[80vh] overflow-auto '>
-              <Tabs
-                className='relative'
-                defaultValue={`${parsedCode.comName}-typescript`}
-              >
-                <TabsList
-                  className={cn(
-                    'absolute  right-20 top-6 z-[1] h-9 p-0.5 border dark:border-background '
-                  )}
-                >
-                  <TabsTrigger
-                    value={`${parsedCode.comName}-typescript`}
-                    className='h-8 d'
-                  >
-                    Ts
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value={`${parsedCode.comName}-javascript`}
-                    className=' h-8 '
-                  >
-                    Js{' '}
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent
-                  className='mt-0 p-4'
-                  value={`${parsedCode.comName}-typescript`}
-                >
-                  <CopyButton
-                    code={tshighlighted.code}
-                    classname={cn('top-6 right-10  ')}
-                  />
-                  <Pre
-                    code={tshighlighted}
-                    handlers={[callout, wordWrap]}
-                    className={cn(' m-0  bg-codebg max-h-[450px] ')}
-                  />
-                  {parsedCode.children}
-                </TabsContent>
-                <TabsContent value={`${parsedCode.comName}-javascript`}>
-                  <CopyButton
-                    code={jshighlighted.code}
-                    classname={cn('top-6 right-10  ')}
-                  />
-                  <Pre
-                    code={jshighlighted}
-                    handlers={[callout, wordWrap]}
-                    className={cn(' m-0  bg-codebg max-h-[450px] ')}
-                  />
-                  {parsedCode.children}
-                </TabsContent>
-              </Tabs>
-            </DrawerContent>
-          </ResponsiveDrawer>
-        </div>
+    <div
+      className={cn(
+        'my-2 w-full border-2 rounded-lg overflow-hidden dark:bg-[#080b11] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px] relative grid place-content-center',
+        isCard ? 'p-10 h-[550px]' : '2xl:p-20 py-16 px-2 h-fit'
+      )}
+    >
+      <div className='not-prose'>
+        <ComponentBlocks componentfile={parsedCode.filesrc} />
       </div>
-    </>
+
+      <div className='absolute top-2 right-2 flex justify-center items-center gap-2'>
+        <CopyButton
+          code={parsedCode.value}
+          classname='relative top-0 left-0'
+        />
+        <ResponsiveDrawer
+          classname='max-w-screen-lg p-2'
+          triggerContent={
+            <button className='bg-foreground rounded-lg p-2 h-8 w-8 grid place-content-center'>
+              <Maximize2 className='dark:text-black text-white h-5 w-5' />
+            </button>
+          }
+        >
+          <DrawerContent classname='2xl:max-h-[62vh] max-h-[80vh] overflow-auto'>
+            <Tabs defaultValue="typescript">
+              <TabsList className='absolute right-20 top-6 z-[1] h-9 p-0.5 border dark:border-background'>
+                <TabsTrigger value="typescript" className='h-8'>
+                  Ts
+                </TabsTrigger>
+                <TabsTrigger value="javascript" className='h-8'>
+                  Js
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="typescript" className='mt-0 p-4'>
+                <CopyButton code={parsedCode.value} classname='top-6 right-10' />
+                <SyntaxHighlighter 
+                  language="tsx"
+                  style={oneDark}
+                  customStyle={{
+                    backgroundColor: 'transparent',
+                    padding: '1.5rem',
+                    borderRadius: '0.5rem',
+                  }}
+                >
+                  {parsedCode.value}
+                </SyntaxHighlighter>
+              </TabsContent>
+              <TabsContent value="javascript" className='mt-0 p-4'>
+                <CopyButton code={jsCode} classname='top-6 right-10' />
+                <SyntaxHighlighter 
+                  language="javascript"
+                  style={oneDark}
+                  customStyle={{
+                    backgroundColor: 'transparent',
+                    padding: '1.5rem',
+                    borderRadius: '0.5rem',
+                  }}
+                >
+                  {jsCode}
+                </SyntaxHighlighter>
+              </TabsContent>
+            </Tabs>
+          </DrawerContent>
+        </ResponsiveDrawer>
+      </div>
+    </div>
   );
 }
