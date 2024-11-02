@@ -1,6 +1,7 @@
 'use client';
 
-import { Highlight, themes } from 'prism-react-renderer';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { CopyButton } from './copy-button';
 import { cn } from '@/lib/utils';
 
@@ -28,25 +29,17 @@ export function PreCode({
       )}
       <div className='relative'>
         <CopyButton code={codeblock.value} classname='top-3.5' />
-        <Highlight
-          theme={themes.nightOwl}
-          code={codeblock.value}
-          language={codeblock.lang as any}
+        <SyntaxHighlighter 
+          language={codeblock.lang}
+          style={oneDark}
+          customStyle={{
+            backgroundColor: 'transparent',
+            padding: '1.5rem',
+            borderRadius: '0.5rem',
+          }}
         >
-          {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className="p-4 rounded-lg bg-[#011627] overflow-x-auto border mt-2">
-              <code className={className} style={style}>
-                {tokens.map((line, i) => (
-                  <div key={i} {...getLineProps({ line })}>
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({ token })} />
-                    ))}
-                  </div>
-                ))}
-              </code>
-            </pre>
-          )}
-        </Highlight>
+          {codeblock.value}
+        </SyntaxHighlighter>
       </div>
     </div>
   );

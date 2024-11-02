@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@code-hike/mdx": "^0.9.0",
     "@emotion/is-prop-valid": "^1.3.1",
     "@headlessui/react": "^2.2.0",
     "@mdx-js/loader": "^3.1.0",
@@ -37,7 +36,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.3",
-    "codehike": "^1.0.4",
     "embla-carousel": "^8.3.1",
     "embla-carousel-autoplay": "^8.3.1",
     "embla-carousel-class-names": "^8.3.1",
@@ -54,7 +52,6 @@
     "next": "15.0.2",
     "next-themes": "^0.3.0",
     "next13-progressbar": "^1.2.2",
-    "prism-react-renderer": "^2.4.0",
     "prismjs": "^1.29.0",
     "react": "^18",
     "react-dom": "^18",
@@ -64,7 +61,6 @@
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",
-    "shiki": "^1.22.2",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "unified": "^11.0.5",
