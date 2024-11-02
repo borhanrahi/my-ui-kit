@@ -4,7 +4,13 @@ import { extractCodeFromFilePath } from '@/lib/code';
 import PreviewComponent from './PreviewComponent';
 import CodeHighlighter from './CodeHighlighter';
 
-export default async function PreviewPage({ params }: { params: { component: string } }) {
+type Props = {
+  params: {
+    component: string;
+  };
+};
+
+export default async function PreviewPage({ params }: Props) {
   const { component } = params;
 
   const currComponent = docs.dataArray.reduce<any>((acc, componentItem) => {
