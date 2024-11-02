@@ -4,6 +4,7 @@ import { getDocBySlug, getAllDocs } from '@/lib/docs';
 import { cn } from '@/lib/utils';
 import { Component } from 'lucide-react';
 import { ComponentPagination } from '@/components/website/code-components/pagination';
+import { CodeErrorBoundary } from '@/components/website/code-components/error-boundary';
 
 export async function generateStaticParams() {
   const docs = await getAllDocs();
@@ -68,7 +69,9 @@ export default async function DocPage({
                 <p className='text-sm'>{doc.content.metadata.description}</p>
               </div>
             </article>
-            <Content />
+            <CodeErrorBoundary>
+              <Content />
+            </CodeErrorBoundary>
             <ComponentPagination doc={doc} />
           </section>
         </div>

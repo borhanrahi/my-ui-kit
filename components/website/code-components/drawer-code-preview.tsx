@@ -54,35 +54,35 @@ export default async function DrawerCodePreview({
   isCard,
   responsive,
 }: ComponentCodePreview) {
-  // console.log(children);
-
   const Codes = React.Children.toArray(children) as React.ReactElement[];
-  const parsedCodeblock = Codes[0]?.props;
-  // console.log(parsedCodeblock);
+  
+  let parsedCode;
+  try {
+    const codeblock = Codes[0]?.props?.codeblock;
+    parsedCode = typeof codeblock === 'string' ? JSON.parse(codeblock) : codeblock;
+  } catch (error) {
+    console.error('Error parsing codeblock:', error);
+    parsedCode = '';
+  }
 
-  const currComponent: TCurrComponentProps | null =
-    docs.dataArray.reduce<TCurrComponentProps | null>((acc, component) => {
-      const file = component?.componentArray?.find(
-        (file) => file.componentName === name
-      );
-
-      if (file) {
-        acc = file;
-      }
-      return acc;
-    }, null);
+  const currComponent = docs.dataArray.reduce<TCurrComponentProps | null>((acc, component) => {
+    const file = component?.componentArray?.find(
+      (file) => file.componentName === name
+    );
+    if (file) acc = file;
+    return acc;
+  }, null);
 
   if (!currComponent) {
     return <div>Component not found</div>;
   }
-  // console.log(currComponent);
 
   // console.log('childer', children);
 
   // const isDesktop = useMediaQuery('(min-width: 768px)');
   // if (isDesktop) {
   // console.log(parsedCodeblock.codeblock);
-  const getcode = JSON.parse(Codes[0]?.props.codeblock);
+  const getcode = parsedCode;
   const result = ts.transpileModule(getcode, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
@@ -128,12 +128,12 @@ export default async function DrawerCodePreview({
         } my-2 w-full border-2  rounded-lg overflow-hidden  dark:bg-[#080b11] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px] relative grid place-content-center`}
       >
         <div className='not-prose'>
-          <ComponentBlocks componentfile={parsedCodeblock.filesrc} />
+          <ComponentBlocks componentfile={parsedCode.filesrc} />
         </div>
 
         <div className='absolute top-2 right-2 flex justify-center items-center gap-2  '>
           <CopyButton
-            code={parsedCodeblock.codeblock}
+            code={parsedCode.codeblock}
             classname=' relative top-0 left-0'
           />
           <ResponsiveDrawer
@@ -147,7 +147,7 @@ export default async function DrawerCodePreview({
             <DrawerContent classname='2xl:max-h-[62vh] max-h-[80vh] overflow-auto '>
               <Tabs
                 className='relative'
-                defaultValue={`${parsedCodeblock.comName}-typescript`}
+                defaultValue={`${parsedCode.comName}-typescript`}
               >
                 <TabsList
                   className={cn(
@@ -155,13 +155,13 @@ export default async function DrawerCodePreview({
                   )}
                 >
                   <TabsTrigger
-                    value={`${parsedCodeblock.comName}-typescript`}
+                    value={`${parsedCode.comName}-typescript`}
                     className='h-8 d'
                   >
                     Ts
                   </TabsTrigger>
                   <TabsTrigger
-                    value={`${parsedCodeblock.comName}-javascript`}
+                    value={`${parsedCode.comName}-javascript`}
                     className=' h-8 '
                   >
                     Js{' '}
@@ -169,7 +169,7 @@ export default async function DrawerCodePreview({
                 </TabsList>
                 <TabsContent
                   className='mt-0 p-4'
-                  value={`${parsedCodeblock.comName}-typescript`}
+                  value={`${parsedCode.comName}-typescript`}
                 >
                   <CopyButton
                     code={tshighlighted.code}
@@ -180,9 +180,9 @@ export default async function DrawerCodePreview({
                     handlers={[callout, wordWrap]}
                     className={cn(' m-0  bg-codebg max-h-[450px] ')}
                   />
-                  {parsedCodeblock.children}
+                  {parsedCode.children}
                 </TabsContent>
-                <TabsContent value={`${parsedCodeblock.comName}-javascript`}>
+                <TabsContent value={`${parsedCode.comName}-javascript`}>
                   <CopyButton
                     code={jshighlighted.code}
                     classname={cn('top-6 right-10  ')}
@@ -192,7 +192,7 @@ export default async function DrawerCodePreview({
                     handlers={[callout, wordWrap]}
                     className={cn(' m-0  bg-codebg max-h-[450px] ')}
                   />
-                  {parsedCodeblock.children}
+                  {parsedCode.children}
                 </TabsContent>
               </Tabs>
             </DrawerContent>

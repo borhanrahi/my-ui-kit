@@ -18,8 +18,7 @@ export default function TabCodePreview({ children }: CodePreviewProps) {
   const parsedCodes = Codes.map((code: React.ReactElement) => {
     const props = code.props;
 
-    // Add safety check for codeblock
-    if (!props.codeblock) {
+    if (!props?.codeblock) {
       return {
         ...code,
         props: {
@@ -30,13 +29,15 @@ export default function TabCodePreview({ children }: CodePreviewProps) {
     }
 
     try {
+      const codeblock = typeof props.codeblock === 'string' 
+        ? JSON.parse(props.codeblock)
+        : props.codeblock;
+        
       return {
         ...code,
         props: {
           ...props,
-          codeblock: typeof props.codeblock === 'string' 
-            ? JSON.parse(props.codeblock)
-            : props.codeblock
+          codeblock
         }
       };
     } catch (error) {
