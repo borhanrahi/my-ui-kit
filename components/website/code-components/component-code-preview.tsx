@@ -1,4 +1,6 @@
-// import { TabsProvider, TabsBtn, TabsContent } from './tabs';
+"use client";
+
+import { useEffect, useState, Suspense } from 'react';
 import {
   Tabs,
   TabsContent,
@@ -34,7 +36,7 @@ export type TCurrComponentProps = {
   filesArray?: any;
 };
 
-export default async function ComponentCodePreview({
+export default function ComponentCodePreview({
   hasReTrigger,
   name,
   children,
@@ -43,25 +45,32 @@ export default async function ComponentCodePreview({
   isNotCopy = false,
   isFitheight = false,
 }: ComponentCodePreview) {
-  const currComponent: TCurrComponentProps | null =
-    docs.dataArray.reduce<TCurrComponentProps | null>((acc, component) => {
-      const file = component?.componentArray?.find(
-        (file) => file.componentName === name
-      );
+  const [fileContent, setFileContent] = useState<string>('');
 
-      if (file) {
-        acc = file;
-      }
-      return acc;
-    }, null);
+  const currComponent = docs.dataArray.reduce<TCurrComponentProps | null>((acc, component) => {
+    const file = component?.componentArray?.find(
+      (file) => file.componentName === name
+    );
+    if (file) acc = file;
+    return acc;
+  }, null);
+
+  useEffect(() => {
+    if (currComponent?.filesrc) {
+      fetch(`/api/code?path=registry/${currComponent.filesrc}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.content) {
+            setFileContent(data.content);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [currComponent]);
 
   if (!currComponent) {
     return <div>Component not found</div>;
   }
-
-  const fileContent = extractCodeFromFilePath(
-    `registry/${currComponent?.filesrc}`
-  );
 
   // Find the component config by matching the component name with the URL path
   const componentConfig = [...SpecialComponents, ...MainComponents].find(

@@ -19,7 +19,7 @@ export default function ComponentBlocks({
             <div className="grid place-content-center min-h-screen bg-background">
               <div className="flex items-center gap-2">
                 <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-r-transparent" />
-                Loading...
+                Loading Component...
               </div>
             </div>
           ),
