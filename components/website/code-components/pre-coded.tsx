@@ -40,7 +40,7 @@ export function PreCoded({
 
         let jsCode = result.outputText.replace(/"use strict";\s*/, '');
 
-        // Initialize the highlighter
+        // Initialize the highlighter with bundled assets
         const highlighter = await createHighlighter({
           themes: ['github-dark'],
           langs: ['typescript', 'javascript', 'tsx', 'jsx']
