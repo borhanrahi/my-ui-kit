@@ -59,34 +59,6 @@ export default function TabCodePreview({ children }: CodePreviewProps) {
     Codes[0]?.props.componentname
   );
   const updatedCodes = [...parsedCodes, ...formattedCodes];
-  // console.log('parseCodes', updatedCodes[0].props);
-  // const parsedArray = updatedCodes.map((codeItem) => {
-  //   return {
-  //     ...codeItem,
-  //     props: {
-  //       ...codeItem.props,
-  //       codeblock: codeItem.props.codeblock, // Replace with parsed codeblock
-  //     },
-  //   };
-  // });
-
-  // console.log('parsedArray', parsedArray);
-  // console.log('updatecodes', updatedCodes);
-
-  // Group the updated Codes by componentname
-  // const groupedCodes = updatedCodes.reduce(
-  //   (acc, code) => {
-  //     const componentName = code.props.componentname;
-  //     if (!acc[componentName]) {
-  //       acc[componentName] = [];
-  //     }
-  //     acc[componentName].push(code);
-  //     return acc;
-  //   },
-  //   {} as Record<string, React.ReactElement[]>
-  // );
-
-  // console.log('groupedCodes', Codes, updatedCodes);
 
   return (
     <>

@@ -15,12 +15,7 @@ export const basePath = [
     href: '/get-started',
     name: 'Get Started',
     icon: <Rocket />,
-  },
-  {
-    href: '/components',
-    name: 'Components',
-    icon: <Component />,
-  },
+  }
 ];
 
 function DocsSidebar() {
