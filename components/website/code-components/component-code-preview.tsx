@@ -15,6 +15,7 @@ import React from 'react';
 import { Code, Eye } from 'lucide-react';
 import { PreCoded } from './pre-coded';
 import { SpecialComponents, MainComponents } from '@/configs/docs';
+import { CodePreviewClient } from './code-preview-client';
 
 type ComponentCodePreview = {
   component: React.ReactElement;
@@ -114,7 +115,7 @@ export default function ComponentCodePreview({
           />
         </TabsContent>
         <TabsContent className='mt-11' value={`${name}code`}>
-          {!isTab && <PreCoded codeblock={fileContent} />}
+          {!isTab && <CodePreviewClient code={fileContent} />}
           {children !== undefined && <div className='p-4 pt-2'>{children}</div>}
         </TabsContent>
       </Tabs>

@@ -1,17 +1,18 @@
-import { Pre, RawCode, highlight } from 'codehike/code';
-import prettier from 'prettier';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Pre } from 'codehike/code';
+import * as shiki from 'shiki';
+import ts from 'typescript';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/components/website/ui/tabs';
-import { CopyButton } from './copy-button';
 import { cn } from '@/lib/utils';
-import ts from 'typescript';
-import { callout, wordWrap } from '../constant';
 
-export async function PreCoded({
+export function PreCoded({
   codeblock,
   classname,
   tabclassname,
@@ -22,88 +23,91 @@ export async function PreCoded({
   tabclassname?: string;
   copyclass?: string;
 }) {
-  const result = ts.transpileModule(codeblock, {
-    compilerOptions: {
-      module: ts.ModuleKind.ESNext,
-      target: ts.ScriptTarget.ESNext,
-      jsx: ts.JsxEmit.Preserve,
-      removeComments: true,
-    },
-  });
+  const [tshighlighted, setTsHighlighted] = useState<string | null>(null);
+  const [jshighlighted, setJsHighlighted] = useState<string | null>(null);
 
-  let jsCode = result.outputText.replace(/"use strict";\s*/, '');
+  useEffect(() => {
+    const formatAndHighlightCode = async () => {
+      try {
+        // Transpile TypeScript to JavaScript
+        const result = ts.transpileModule(codeblock, {
+          compilerOptions: {
+            module: ts.ModuleKind.ESNext,
+            target: ts.ScriptTarget.ESNext,
+            jsx: ts.JsxEmit.Preserve,
+            removeComments: true,
+          },
+        });
 
-  // Format JavaScript code using Prettier
-  const formattedJsCode = await prettier.format(jsCode, {
-    parser: 'babel',
-    semi: true,
-    singleQuote: true,
-    trailingComma: 'es5',
-    printWidth: 80,
-    jsxBracketSameLine: true, // Keep JSX tags in one line
-  });
+        let jsCode = result.outputText.replace(/"use strict";\s*/, '');
 
-  const tsCode = {
-    value: codeblock,
-    lang: 'tsx',
-    meta: '',
-  };
+        // Initialize the highlighter with specific theme
+        const highlighter = await shiki.getHighlighter({
+          themes: ['github-dark'],
+          langs: ['typescript', 'javascript', 'tsx', 'jsx'],
+        });
 
-  const jsCodeblock = {
-    value: formattedJsCode,
-    lang: 'js',
-    meta: '',
-  };
+        // Highlight TypeScript code
+        const tsHighlighted = await highlighter.codeToHtml(codeblock, {
+          lang: 'tsx',
+          theme: 'github-dark'
+        });
 
-  // Highlight the code
-  const tshighlighted = await highlight(tsCode, 'github-from-css');
-  const jshighlighted = await highlight(jsCodeblock, 'github-from-css');
+        // Highlight JavaScript code
+        const jsHighlighted = await highlighter.codeToHtml(jsCode, {
+          lang: 'javascript',
+          theme: 'github-dark'
+        });
+
+        setTsHighlighted(tsHighlighted);
+        setJsHighlighted(jsHighlighted);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error('Error processing code:', error.message);
+        } else {
+          console.error('Unknown error occurred while processing code');
+        }
+      }
+    };
+
+    formatAndHighlightCode();
+  }, [codeblock]);
+
+  if (!tshighlighted || !jshighlighted) {
+    return (
+      <div className="flex items-center justify-center p-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className='relative'>
       <Tabs defaultValue={'typescript'}>
         <TabsList
           className={cn(
-            'absolute  right-20 top-6 z-[1] h-9 p-0.5 border dark:border-background ',
+            'absolute right-20 top-6 z-[1] h-9 p-0.5 border dark:border-background',
             tabclassname
           )}
         >
           <TabsTrigger value={'typescript'} className='h-8 text-foreground'>
             Ts
           </TabsTrigger>
-          <TabsTrigger value={'javascript'} className=' h-8  text-foreground'>
-            Js{' '}
+          <TabsTrigger value={'javascript'} className='h-8 text-foreground'>
+            Js
           </TabsTrigger>
         </TabsList>
         <TabsContent value={'typescript'}>
-          <div className={cn('relative p-4', classname)}>
-            <CopyButton
-              code={tshighlighted.code}
-              classname={cn('top-6 right-10  ', copyclass)}
-            />
-            <div className=' p-2 max-h-[500px] overflow-x-hidden  rounded-md text-sm  bg-codebg border'>
-              <Pre
-                code={tshighlighted}
-                handlers={[callout, wordWrap]}
-                className={cn('m-0', classname)}
-              />
-            </div>
-          </div>
+          <div 
+            className="prose dark:prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: tshighlighted }} 
+          />
         </TabsContent>
         <TabsContent value={'javascript'}>
-          <div className={cn('relative p-4', classname)}>
-            <CopyButton
-              code={jshighlighted.code}
-              classname={cn('top-6 right-10  ', copyclass)}
-            />
-            <div className='p-2 max-h-[500px] overflow-x-hidden  rounded-md text-sm bg-codebg border'>
-              <Pre
-                code={jshighlighted}
-                handlers={[callout, wordWrap]}
-                className={cn(' m-0', classname)}
-              />
-            </div>
-          </div>
+          <div 
+            className="prose dark:prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: jshighlighted }} 
+          />
         </TabsContent>
       </Tabs>
     </div>
