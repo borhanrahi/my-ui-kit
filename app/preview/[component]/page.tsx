@@ -4,14 +4,18 @@ import { extractCodeFromFilePath } from '@/lib/code';
 import PreviewComponent from './PreviewComponent';
 import CodeHighlighter from './CodeHighlighter';
 
-type Props = {
-  params: {
-    component: string;
-  };
-};
+// Define params as a Promise type for Next.js 15
+type PageParams = Promise<{
+  component: string;
+}>;
 
-export default async function PreviewPage({ params }: Props) {
-  const { component } = params;
+interface PageProps {
+  params: PageParams;
+}
+
+export default async function PreviewPage({ params }: PageProps) {
+  // Await the params since they're now a Promise
+  const { component } = await params;
 
   const currComponent = docs.dataArray.reduce<any>((acc, componentItem) => {
     const file = componentItem?.componentArray?.find(
